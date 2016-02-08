@@ -71,7 +71,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
         if ( ! is_admin() )
             return;
 
-        global $_genesis_admin_settings, $_gsfc_settings;
+        global $_genesis_admin_settings, $_thememixfc_settings;
 
         if ( ! current_theme_supports( 'genesis-admin-menu' ) )
             return;
@@ -82,7 +82,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
             return;
             
         parent::__construct();
-        $_genesis_admin_settings = $_gsfc_settings;
+        $_genesis_admin_settings = $_thememixfc_settings;
 
         //* Set the old global pagehook var for backward compatibility
         global $_genesis_theme_settings_pagehook;
@@ -98,7 +98,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
      */
     public function add_metabox() {
         if ( class_exists( 'Genesis_Featured_Widget_Amplified' ) )
-            add_meta_box( 'gsfc-settings', __( 'Genesis Sandbox Featured Content Settings', 'gsfc' ), array( $this, 'settings' ), $this->pagehook, 'main', 'high' );
+            add_meta_box( 'thememixfc-settings', __( 'Genesis Sandbox Featured Content Settings', 'thememixfc' ), array( $this, 'settings' ), $this->pagehook, 'main', 'high' );
     }
     
     /**
@@ -107,7 +107,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
      * @since 1.1.0
      */
     public function add_defaults( $defaults ) {
-        $defaults['gsfc_gfwa'] = 0;
+        $defaults['thememixfc_gfwa'] = 0;
         return $defaults;
     }
     
@@ -118,8 +118,8 @@ class GSFC_Settings extends Genesis_Admin_Settings {
      */
     public function settings() {
     ?>
-        <label for="<?php echo $this->get_field_id( 'gsfc_gfwa' ); ?>"><input type="checkbox" name="<?php echo $this->get_field_name( 'gsfc_gfwa' ); ?>" id="<?php echo $this->get_field_id( 'gsfc_gfwa' ); ?>" value="1"<?php checked( $this->get_field_value( 'gsfc_gfwa' ) ); ?> />
-        <?php _e( 'Have Genesis Sandbox Featured Content Widget take over Genesis Featured Widget Amplified?', 'gsfc' ); ?></label>
+        <label for="<?php echo $this->get_field_id( 'thememixfc_gfwa' ); ?>"><input type="checkbox" name="<?php echo $this->get_field_name( 'thememixfc_gfwa' ); ?>" id="<?php echo $this->get_field_id( 'thememixfc_gfwa' ); ?>" value="1"<?php checked( $this->get_field_value( 'thememixfc_gfwa' ) ); ?> />
+        <?php _e( 'Have Genesis Sandbox Featured Content Widget take over Genesis Featured Widget Amplified?', 'thememixfc' ); ?></label>
     <?php
     }
     

@@ -55,30 +55,30 @@ Well, I bother Nick all the time to change things. He's busy. I'm busy. So, inst
 
 ###What Hooks are available?###
 
-1. gsfc_widget_name - replace 'Genesis Sandbox' by returning a string with a new prefix name
-1. gsfc_before_loop - before the query is formulated
-1. gsfc_before_post_content - before the content
-1. gsfc_post_content - standard content output
-1. gsfc_after_post_content - after content
-1. gsfc_endwhile - after the endwhile but before the endif
-1. gsfc_after_loop - after the loop endif
-1. gsfc_after_loop_reset - after the loop reset
-1. gsfc_before_list_items - before additional list item loop
-1. gsfc_list_items - within additional list item loop
-1. gsfc_after_list_items - after the additional list item loop, where list items are output
-1. gsfc_category_more - within the archive more link conditional block
-1. gsfc_taxonomy_more (alias of gsfc_category_more) - within the archive more link conditional block
-1. gsfc_[TAXONOMY]_more (alias of gsfc_category_more) - within the archive more link conditional block
-1. gsfc_after_category_more - after the archive more conditional block
-1. gsfc_after_taxonomy_more (alias of gsfc_after_category_more) - after the archive more conditional block
-1. gsfc_after_[TAXONOMY]_more (alias of gsfc_after_category_more) - after the archive more conditional block
-1. gsfc_show_content - create your own custom content block
+1. thememixfc_widget_name - replace 'Genesis Sandbox' by returning a string with a new prefix name
+1. thememixfc_before_loop - before the query is formulated
+1. thememixfc_before_post_content - before the content
+1. thememixfc_post_content - standard content output
+1. thememixfc_after_post_content - after content
+1. thememixfc_endwhile - after the endwhile but before the endif
+1. thememixfc_after_loop - after the loop endif
+1. thememixfc_after_loop_reset - after the loop reset
+1. thememixfc_before_list_items - before additional list item loop
+1. thememixfc_list_items - within additional list item loop
+1. thememixfc_after_list_items - after the additional list item loop, where list items are output
+1. thememixfc_category_more - within the archive more link conditional block
+1. thememixfc_taxonomy_more (alias of thememixfc_category_more) - within the archive more link conditional block
+1. thememixfc_[TAXONOMY]_more (alias of thememixfc_category_more) - within the archive more link conditional block
+1. thememixfc_after_category_more - after the archive more conditional block
+1. thememixfc_after_taxonomy_more (alias of thememixfc_after_category_more) - after the archive more conditional block
+1. thememixfc_after_[TAXONOMY]_more (alias of thememixfc_after_category_more) - after the archive more conditional block
+1. thememixfc_show_content - create your own custom content block
 
 ### What Filters are available? ###
 
-1. gsfc_query_args - filter the main query args
-1. gsfc_exclude_post_types - used to prevent post types from appearing in the post type list in the widget form
-1. gsfc_exclude_taxonomies - used to prevent taxonomies and related terms from appearing in the terms and taxonomies list in the widget form
-1. gsfc_extra_post_args - extra post args for the extra posts list
-1. gsfc_list_items - HTML markup for the list items
-1. gsfc_form_fields - Add custom fields to widget form
+1. thememixfc_query_args - filter the main query args
+1. thememixfc_exclude_post_types - used to prevent post types from appearing in the post type list in the widget form
+1. thememixfc_exclude_taxonomies - used to prevent taxonomies and related terms from appearing in the terms and taxonomies list in the widget form
+1. thememixfc_extra_post_args - extra post args for the extra posts list
+1. thememixfc_list_items - HTML markup for the list items
+1. thememixfc_form_fields - Add custom fields to widget form

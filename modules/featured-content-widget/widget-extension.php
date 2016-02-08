@@ -15,16 +15,16 @@ if ( ! class_exists( 'GSFC_Skeleton' ) ) {
 class GSFC_Skeleton {
     public function __construct() {
         if ( class_exists( 'GS_Featured_Content' ) && class_exists( 'WPSS_Font_Awesome' ) ) {
-            add_filter( 'gsfc_defaults', array( $this, 'defaults' ), 10, 3 );
-            add_filter( 'gsfc_form_fields', array( $this, 'add_form_fields' ), 10, 3 );
-            add_filter( 'gsfc_update', array( $this, 'update' ), 10, 3 );
+            add_filter( 'thememixfc_defaults', array( $this, 'defaults' ), 10, 3 );
+            add_filter( 'thememixfc_form_fields', array( $this, 'add_form_fields' ), 10, 3 );
+            add_filter( 'thememixfc_update', array( $this, 'update' ), 10, 3 );
             
-            add_action( 'gsfc_before_post_content', array( $this, 'do_action' ) );
-            add_action( 'gsfc_post_content', array( $this, 'do_action' ) );
-            add_action( 'gsfc_after_post_content', array( $this, 'do_action' ) );
+            add_action( 'thememixfc_before_post_content', array( $this, 'do_action' ) );
+            add_action( 'thememixfc_post_content', array( $this, 'do_action' ) );
+            add_action( 'thememixfc_after_post_content', array( $this, 'do_action' ) );
         }
     }
-    
+
     /**
      * Add Font Awesome default settings to Featured Content Widget
      * 
@@ -32,10 +32,10 @@ class GSFC_Skeleton {
      * @return array $defaults Modified array of default settings.
      */
     public function defaults( $defaults ) {
-        $gsfc_defaults = array();
+        $thememixfc_defaults = array();
         
         // Give precendent to existing defaults over my own
-        return wp_parse_args( $defaults, $gsfc_defaults );
+        return wp_parse_args( $defaults, $thememixfc_defaults );
     }
     
     /**
@@ -84,9 +84,9 @@ class GSFC_Skeleton {
         $icon = sprintf( '<%1$s class="%2$s"></%1$s>', $instance['icon_tag'], $instance['icon'] );
         $icon = $instance['link_icon'] == 1 ? sprintf( '<a href="%s" title="%s" class="%s">%s</a>', $link, the_title_attribute( 'echo=0' ), $align, $icon ) : $icon;
         echo 'icon';
-        GS_Featured_Content::maybe_echo( $instance, 'gsfc_before_post_content', 'icon_position', 'before-title', $icon );
-        GS_Featured_Content::maybe_echo( $instance, 'gsfc_post_content', 'icon_position', 'after-title', $icon );
-        GS_Featured_Content::maybe_echo( $instance, 'gsfc_after_post_content', 'icon_position', 'after-content', $icon );
+        GS_Featured_Content::maybe_echo( $instance, 'thememixfc_before_post_content', 'icon_position', 'before-title', $icon );
+        GS_Featured_Content::maybe_echo( $instance, 'thememixfc_post_content', 'icon_position', 'after-title', $icon );
+        GS_Featured_Content::maybe_echo( $instance, 'thememixfc_after_post_content', 'icon_position', 'after-content', $icon );
     }
 }
 }
