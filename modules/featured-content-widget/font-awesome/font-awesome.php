@@ -3,7 +3,7 @@
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 function themefix_font_awesome_settings_extension( $args ) {
 
-	require( 'font-awesome/font-awesome-icons.php' );
+	require( 'icons.php' );
 
 	$args['col2'][] = array(
 		'font-awesome'             => array(

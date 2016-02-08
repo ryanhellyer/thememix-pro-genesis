@@ -49,7 +49,8 @@ function thememixfc_init() {
 }
 
 require( 'widget.php' );
-require( 'extension-font-awesome.php' );
+require( 'font-awesome/font-awesome.php' );
+require( 'buddypress-groups/buddypress-groups.php' );
 
 add_action( 'widgets_init', 'thememixfc_widgets_init', 50 );
 /**
