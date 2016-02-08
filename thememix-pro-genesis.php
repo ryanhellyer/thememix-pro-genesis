@@ -31,7 +31,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-require_once( plugin_dir_path( __FILE__ ) . 'assets/classes/thememix-page-templates.php' );
+require( 'assets/classes/thememix-page-templates.php' );
+require( 'modules/genesis-featured-content-widget/gs-featured-content-widget.php.php')
 
 /**
  * Load the text domain for translation of the plugin
