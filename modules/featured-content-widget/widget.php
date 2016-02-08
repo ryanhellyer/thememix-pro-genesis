@@ -242,11 +242,11 @@ class GS_Featured_Content extends WP_Widget {
 	 */
 	public static function enqueue_style( $instance ) {
 		if ( is_admin() ) return;
-		
+
 		if ( empty( $instance['add_column_classes'] ) ) return; 
 		$suffix = ( defined( 'WP_DEBUG' ) || defined( 'SCRIPT_DEBUG' ) ) ? '.css' : '.min.css';
 		$deps    = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
-		wp_enqueue_style( 'thememixfc-column-classes', plugins_url( GSFC_PLUGIN_NAME . '/css/column-classes' . $suffix ), array( $deps, ), GSFC_PLUGIN_VERSION );
+		wp_enqueue_style( 'thememixfc-column-classes', plugins_url( THEMEMIXFC_PLUGIN_NAME . '/css/column-classes' . $suffix ), array( $deps, ), THEMEMIXFC_PLUGIN_VERSION );
 	}
 	
 	/**
@@ -562,7 +562,7 @@ function thememixfcSave(t) {
 		$plugin_path = basename( dirname( dirname( dirname( __FILE__ ) ) ) );
 		$module = basename( dirname( __FILE__ ) );
 		$url = plugins_url( $plugin_path . '/modules/' . $module . '/css/thememixfc-admin' . $min . 'css' );
-		wp_enqueue_style( 'thememixfc-admin-widget', $url, null, GSFC_PLUGIN_VERSION );
+		wp_enqueue_style( 'thememixfc-admin-widget', $url, null, THEMEMIXFC_PLUGIN_VERSION );
 	}
 
 	/**
@@ -1429,7 +1429,7 @@ function thememixfcSave(t) {
 				'requires'    => '',
 			),
 		);
-		
+
 		$box_7 = array(
 			'extra_posts'             => array(
 				'label'       => __( 'Display List of Additional Posts', 'thememixfc' ),
@@ -1507,7 +1507,7 @@ function thememixfcSave(t) {
 				),
 			),
 		);
-		
+
 		$columns = array(
 			'col'  => array( $box, ),
 			'col1' => array(

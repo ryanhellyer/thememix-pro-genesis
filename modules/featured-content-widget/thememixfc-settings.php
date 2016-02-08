@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) exit( 'Cheatin&#8217; uh?' );
  * @link       http://wpsmith.net/
  * @since      1.1.0
  */
-class GSFC_Settings extends Genesis_Admin_Settings {
+class ThemeMixFC_Settings extends Genesis_Admin_Settings {
     
     /**
      * Loads on proper hook, genesis_init.
@@ -41,13 +41,13 @@ class GSFC_Settings extends Genesis_Admin_Settings {
     }
     
     /**
-     * Add GSFC Settings.
+     * Add THEMEMIXFC Settings.
      *
      * @since 1.1.0
      */
     public function load() {
         
-        /** Add GSFC Settings */
+        /** Add THEMEMIXFC Settings */
         remove_action( 'after_setup_theme', 'genesis_add_admin_menu' );
         add_action( 'after_setup_theme', array( $this, 'add_admin_menu' ) );
         add_action( 'genesis_admin_before_metaboxes', array( $this, 'add_metabox' ) );
@@ -92,7 +92,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
     }
     
     /**
-     * Adds GSFC Metabox to Theme Settings Page.
+     * Adds THEMEMIXFC Metabox to Theme Settings Page.
      *
      * @since 1.1.0
      */
@@ -102,7 +102,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
     }
     
     /**
-     * Adds GSFC defaults to Genesis options.
+     * Adds THEMEMIXFC defaults to Genesis options.
      *
      * @since 1.1.0
      */
@@ -112,7 +112,7 @@ class GSFC_Settings extends Genesis_Admin_Settings {
     }
     
     /**
-     * Outputs GSFC metabox markup contents.
+     * Outputs THEMEMIXFC metabox markup contents.
      *
      * @since 1.1.0
      */

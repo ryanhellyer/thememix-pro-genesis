@@ -11,8 +11,8 @@
  * @since      1.1.0
  */
 
-if ( ! class_exists( 'GSFC_Skeleton' ) ) {
-class GSFC_Skeleton {
+if ( ! class_exists( 'THEMEMIXFC_Skeleton' ) ) {
+class THEMEMIXFC_Skeleton {
     public function __construct() {
         if ( class_exists( 'GS_Featured_Content' ) && class_exists( 'WPSS_Font_Awesome' ) ) {
             add_filter( 'thememixfc_defaults', array( $this, 'defaults' ), 10, 3 );

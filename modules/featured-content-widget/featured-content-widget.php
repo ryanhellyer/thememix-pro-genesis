@@ -30,8 +30,8 @@
 /** Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) exit( 'Cheatin&#8217; uh?' );
 
-define( 'GSFC_PLUGIN_NAME', basename( dirname( __FILE__ ) ) );
-define( 'GSFC_PLUGIN_VERSION', '1.1.0' );
+define( 'THEMEMIXFC_PLUGIN_NAME', basename( dirname( __FILE__ ) ) );
+define( 'THEMEMIXFC_PLUGIN_VERSION', '1.1.0' );
 
 add_action( 'genesis_init', 'thememixfc_init', 50 );
 /**
@@ -43,15 +43,17 @@ function thememixfc_init() {
         require_once( 'thememixfc-settings.php' );
         
         global $_thememixfc_settings;
-        $_thememixfc_settings = new GSFC_Settings();
+        $_thememixfc_settings = new ThemeMixFC_Settings();
     }
     
 }
 
-require_once( 'widget.php' );
+require( 'widget.php' );
+require( 'extension-font-awesome.php' );
+
 add_action( 'widgets_init', 'thememixfc_widgets_init', 50 );
 /**
- * Register GSFC for use in the Genesis theme.
+ * Register THEMEMIXFC for use in the Genesis theme.
  *
  * @since 1.1.0
  */
@@ -86,7 +88,7 @@ function thememixfc_action_links( $links, $file ) {
 
 add_action( 'save_post', 'thememixfc_save_post', 10, 3 );
 /**
- * Hooks into save_post to remove all GSFC Transients.
+ * Hooks into save_post to remove all THEMEMIXFC Transients.
  *
  * Contains a filter thememixfc_save_post_query for anyone to modify the query.
  *

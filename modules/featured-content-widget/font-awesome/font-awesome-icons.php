@@ -481,4 +481,3 @@ $icons = array(
 	'fa-ils' => '\f20b',
 	'fa-meanpath' => '\f20c',
 );
-print_r( $icons );
