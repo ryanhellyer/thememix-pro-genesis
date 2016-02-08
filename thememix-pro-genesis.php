@@ -32,7 +32,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 require( 'assets/classes/thememix-page-templates.php' );
-require( 'modules/genesis-featured-widget-amplified/plugin.php');
+require( 'modules/featured-content-widget/featured-content-widget.php' );
 
 /**
  * Load the text domain for translation of the plugin
