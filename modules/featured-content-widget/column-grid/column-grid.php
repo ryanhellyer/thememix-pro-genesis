@@ -2,14 +2,14 @@
 
 $thememixfc_grid_counter = 0;
 
-function bla_after() {
+function themefixfc_grid_after() {
 	global $thememixfc_grid_counter;
 	$thememixfc_grid_counter++;
 }
-add_action( 'thememixfc_after_post_content', 'bla_after' );
+add_action( 'thememixfc_after_post_content', 'themefixfc_grid_after' );
 
 
-function bla_styling() {
+function themefixfc_grid_styling() {
 	global $thememixfc_grid_counter;
 
 	// Find chosen number of columns
@@ -42,7 +42,7 @@ function bla_styling() {
 	}
 
 }
-add_action( 'wp_footer', 'bla_styling' );
+add_action( 'wp_footer', 'themefixfc_grid_styling' );
 
 
 
