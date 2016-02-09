@@ -1,11 +1,23 @@
 <?php
 
-require( 'dashicons-picker-example-plugin.php' );
+/**
+ * Enqueue dashicons picker scripts.
+ */
+function dashicons_picker_scripts() {
+
+	$plugin_url = plugin_dir_url( __FILE__ );
+
+	wp_enqueue_style( 'dashicons-picker',  $plugin_url . 'css/dashicons-picker.css', array( 'dashicons' ), '1.0', false );
+	wp_enqueue_script( 'dashicons-picker', $plugin_url . 'js/dashicons-picker.js',   array( 'jquery'    ), '1.1', true  );
+}
+add_action( 'admin_enqueue_scripts', 'dashicons_picker_scripts' );
+
+
+
+
 
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 function themefix_font_awesome_settings_extension( $args ) {
-
-	require( 'icons.php' );
 
 	$args['col2'][] = array(
 		'font-awesome'             => array(
@@ -17,13 +29,13 @@ function themefix_font_awesome_settings_extension( $args ) {
 			'label'       => __( 'Icon', 'thememixfc' ),
 			'description' => '',
 			'type'        => 'fontawesome',
-			'options'     => $icons,
 			'requires'    => array(
 				'font-awesome',
 				'',
 				true
 			),
 		),
+
 		'fontawesome-position' => array(
 			'label'       => __( 'Position', 'thememixfc' ),
 			'description' => '',
@@ -39,6 +51,7 @@ function themefix_font_awesome_settings_extension( $args ) {
 				true
 			),
 		),
+
 	);
 
 
