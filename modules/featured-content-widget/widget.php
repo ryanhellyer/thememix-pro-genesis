@@ -1780,42 +1780,11 @@ print_r( $extra_posts_args );echo "\n\n\n\n...................\n\n\n\n";print_r(
 						case 'fontawesome' :
 
 
-
 ?>
-		<form method="post" action="options.php" class="options_form">
-
-			<table class="form-table">
-				<tr>
-					<th scope="row">
-						<label for="dashicons_picker_example_icon1"><?php _e( 'Icon 1' ); ?></label>
-					</th>
-					<td>
-						<input class="regular-text" type="text" id="dashicons_picker_example_icon1" name="dashicons_picker_settings[icon1]" value="<?php if( isset( $options['icon1'] ) ) { echo esc_attr( $options['icon1'] ); } ?>"/>
-						<input type="button" data-target="#dashicons_picker_example_icon1" class="button dashicons-picker" value="Choose Icon" />
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="dashicons_picker_example_icon2"><?php _e( 'Icon 2' ); ?></label>
-					</th>
-					<td>
-						<input class="regular-text" type="text" id="dashicons_picker_example_icon2" name="dashicons_picker_settings[icon2]" value="<?php if( isset( $options['icon2'] ) ) { echo esc_attr( $options['icon2'] ); } ?>"/>
-						<input type="button" data-target="#dashicons_picker_example_icon2" class="button dashicons-picker" value="pick" />
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="dashicons_picker_example_icon3"><?php _e( 'Icon 3' ); ?></label>
-					</th>
-					<td>
-						<input class="regular-text" type="text" id="dashicons_picker_example_icon3" name="dashicons_picker_settings[icon3]" value="<?php if( isset( $options['icon2'] ) ) { echo esc_attr( $options['icon3'] ); } ?>"/>
-						<input type="button" data-target="#dashicons_picker_example_icon3" class="button dashicons-picker" value="..." />
-					</td>
-				</tr>
-			</table>
-
-		</form>
+<input class="regular-text" id="dashicons_picker_example_icon1" type="text" value="test" />
+<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#dashicons_picker_example_icon1" />
 <?php
+
 
 
 /*

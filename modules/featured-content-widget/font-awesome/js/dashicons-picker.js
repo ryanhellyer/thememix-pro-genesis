@@ -289,6 +289,14 @@
 					e.preventDefault();
 					var title = $( this ).attr( 'title' );
 					target.val( 'dashicons-' + title );
+/*
+var thefield = document.getElementById('dashicons_picker_example_icon1');
+thefield.val = 'dashicons-' + title;
+thefield.value = 'dashicons-' + title;
+
+console.log(thefield.val);
+console.log(thefield.value);
+*/
 					removePopup();
 				} );
 
