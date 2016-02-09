@@ -1779,27 +1779,13 @@ function thememixfcSave(t) {
 							break;
 						case 'fontawesome' :
 
-
-?>
-<input class="regular-text dashicons-picker" id="dashicons_picker_example_icon1" type="text" value="test" />
-<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#dashicons_picker_example_icon1" />
-<?php
-
-
-
-/*
-
-							printf( '<input type="checkbox" id="%1$s" name="%2$s" value="1" class="widget-control-save" %3$s />',
+							printf( '<input type="textbox" id="%1$s" name="%2$s" class="dashicons-picker" widget-control-save" value="%3$s" />',
 								$obj->get_field_id( $field_id ),
 								$obj->get_field_name( $field_id ),
-								checked( 1, $instance[$field_id], false )
+								$instance[$field_id]
 								// $class
 							);
-							printf( '<label for="%1$s">%2$s</label>', $obj->get_field_id( $field_id ), $args['label'] );
-							echo $args['description'] ? wpautop( $args['description'] ) : '';
-*/
-
-
+							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#widget-featured-content-3-fontawesome-icon" />';
 							break;
 						case 'p' :
 						case 'description' :
