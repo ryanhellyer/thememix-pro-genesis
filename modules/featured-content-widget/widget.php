@@ -1781,7 +1781,7 @@ function thememixfcSave(t) {
 
 
 ?>
-<input class="regular-text" id="dashicons_picker_example_icon1" type="text" value="test" />
+<input class="regular-text dashicons-picker" id="dashicons_picker_example_icon1" type="text" value="test" />
 <input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#dashicons_picker_example_icon1" />
 <?php
 
