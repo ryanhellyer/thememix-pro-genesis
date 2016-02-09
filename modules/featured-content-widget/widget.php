@@ -786,7 +786,7 @@ function thememixfcSave(t) {
 		}
 
 
-print_r( $extra_posts_args );echo "\n\n\n\n...................\n\n\n\n";print_r( $thememixfc_query );die;
+//print_r( $extra_posts_args );echo "\n\n\n\n...................\n\n\n\n";print_r( $thememixfc_query );die;
 		
 		$optitems = $listitems = '';
 		$items = array();

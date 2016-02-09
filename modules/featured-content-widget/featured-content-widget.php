@@ -51,6 +51,7 @@ function thememixfc_init() {
 require( 'widget.php' );
 require( 'font-awesome/font-awesome.php' );
 require( 'buddypress-groups/buddypress-groups.php' );
+require( 'column-grid/column-grid.php' );
 
 add_action( 'widgets_init', 'thememixfc_widgets_init', 50 );
 /**
