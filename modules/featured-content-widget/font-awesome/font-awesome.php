@@ -1,5 +1,7 @@
 <?php
 
+require( 'dashicons-picker-example-plugin.php' );
+
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 function themefix_font_awesome_settings_extension( $args ) {
 
@@ -14,7 +16,7 @@ function themefix_font_awesome_settings_extension( $args ) {
 		'fontawesome-icon' => array(
 			'label'       => __( 'Icon', 'thememixfc' ),
 			'description' => '',
-			'type'        => 'select',
+			'type'        => 'fontawesome',
 			'options'     => $icons,
 			'requires'    => array(
 				'font-awesome',

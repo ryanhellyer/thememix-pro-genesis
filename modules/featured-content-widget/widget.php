@@ -167,11 +167,11 @@ class GS_Featured_Content extends WP_Widget {
 		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
 		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
 		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
-		
+
 		//* Do before widget post content
 		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ) );
 		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_title' ) );
-		
+
 		//* Maybe Linkify Widget Title
 		add_action( 'thememixfc_widget_title', array( $self, 'widget_title' ), 999, 3 );
 		
@@ -387,6 +387,7 @@ class GS_Featured_Content extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public static function do_post_image( $instance ) {
+
 		//* Bail if empty show param
 		if ( empty( $instance['show_image'] ) ) {
 			return;
@@ -395,7 +396,6 @@ class GS_Featured_Content extends WP_Widget {
 		$align = $instance['image_alignment'] ? esc_attr( $instance['image_alignment'] ) : 'alignnone';
 		$link  = $instance['link_image_field'] ? $instance['link_image_field'] : get_permalink();
 		$link  = '' !== genesis_get_custom_field( 'thememixfc_link_image_field' ) ? genesis_get_custom_field( 'thememixfc_link_image_field' ) : $link;
-		
 		$image = genesis_get_image( array(
 				'format'  => 'html',
 				'size'    => $instance['image_size'],
@@ -454,7 +454,7 @@ class GS_Featured_Content extends WP_Widget {
 		GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
 
 		$gs_counter++;
-		
+
 		genesis_markup( array(
 			'html5' => '</article>',
 			'xhtml' => '</div>',
@@ -470,10 +470,12 @@ class GS_Featured_Content extends WP_Widget {
 	public static function do_post_title( $instance ) {
 		//* Bail if empty show param
 		if ( empty( $instance['show_title'] ) ) return;
-		
+
+//echo $gs_counter . ':';the_title();echo ':';echo get_permalink();echo $link;echo "\n\n\n\n";print_r( $instance );die;
+
 		//* Custom Link or Permalink
 		$link = $instance['link_title'] && $instance['link_title_field'] && genesis_get_custom_field( 'link_title_field' ) ? genesis_get_custom_field( 'link_title_field' ) : get_permalink();
-		
+
 		//* Add Link to Title?
 		$wrap_open = $instance['link_title'] == 1 ? sprintf( '<a href="%s" title="%s">', $link, the_title_attribute( 'echo=0' ) ) : '';
 		$wrap_close = $instance['link_title'] == 1 ? '</a>' : '';
@@ -770,7 +772,7 @@ function thememixfcSave(t) {
 		);
 		
 		$extra_posts_args = apply_filters( 'thememixfc_extra_post_args', $extra_posts_args, $instance );
-print_r( $extra_posts_args );die;
+		
 		if ( !empty( $instance['optimize'] ) && !empty( $instance['custom_field'] ) ) {
 			if ( ! empty( $instance['delete_transients'] ) )
 				GS_Featured_Content::delete_transient( 'thememixfc_extra_' . $instance['custom_field'] );
@@ -782,6 +784,9 @@ print_r( $extra_posts_args );die;
 		} else {
 			$thememixfc_query = new WP_Query( $extra_posts_args );
 		}
+
+
+print_r( $extra_posts_args );echo "\n\n\n\n...................\n\n\n\n";print_r( $thememixfc_query );die;
 		
 		$optitems = $listitems = '';
 		$items = array();
@@ -1771,6 +1776,61 @@ print_r( $extra_posts_args );die;
 							);
 							printf( '<label for="%1$s">%2$s</label>', $obj->get_field_id( $field_id ), $args['label'] );
 							echo $args['description'] ? wpautop( $args['description'] ) : '';
+							break;
+						case 'fontawesome' :
+
+
+
+?>
+		<form method="post" action="options.php" class="options_form">
+
+			<table class="form-table">
+				<tr>
+					<th scope="row">
+						<label for="dashicons_picker_example_icon1"><?php _e( 'Icon 1' ); ?></label>
+					</th>
+					<td>
+						<input class="regular-text" type="text" id="dashicons_picker_example_icon1" name="dashicons_picker_settings[icon1]" value="<?php if( isset( $options['icon1'] ) ) { echo esc_attr( $options['icon1'] ); } ?>"/>
+						<input type="button" data-target="#dashicons_picker_example_icon1" class="button dashicons-picker" value="Choose Icon" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="dashicons_picker_example_icon2"><?php _e( 'Icon 2' ); ?></label>
+					</th>
+					<td>
+						<input class="regular-text" type="text" id="dashicons_picker_example_icon2" name="dashicons_picker_settings[icon2]" value="<?php if( isset( $options['icon2'] ) ) { echo esc_attr( $options['icon2'] ); } ?>"/>
+						<input type="button" data-target="#dashicons_picker_example_icon2" class="button dashicons-picker" value="pick" />
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="dashicons_picker_example_icon3"><?php _e( 'Icon 3' ); ?></label>
+					</th>
+					<td>
+						<input class="regular-text" type="text" id="dashicons_picker_example_icon3" name="dashicons_picker_settings[icon3]" value="<?php if( isset( $options['icon2'] ) ) { echo esc_attr( $options['icon3'] ); } ?>"/>
+						<input type="button" data-target="#dashicons_picker_example_icon3" class="button dashicons-picker" value="..." />
+					</td>
+				</tr>
+			</table>
+
+		</form>
+<?php
+
+
+/*
+
+							printf( '<input type="checkbox" id="%1$s" name="%2$s" value="1" class="widget-control-save" %3$s />',
+								$obj->get_field_id( $field_id ),
+								$obj->get_field_name( $field_id ),
+								checked( 1, $instance[$field_id], false )
+								// $class
+							);
+							printf( '<label for="%1$s">%2$s</label>', $obj->get_field_id( $field_id ), $args['label'] );
+							echo $args['description'] ? wpautop( $args['description'] ) : '';
+*/
+
+
 							break;
 						case 'p' :
 						case 'description' :
