@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-require( 'assets/classes/thememix-page-templates.php' );
+require( 'inc/thememix-page-templates.php' );
 require( 'modules/featured-content-widget/featured-content-widget.php' );
 
 /**

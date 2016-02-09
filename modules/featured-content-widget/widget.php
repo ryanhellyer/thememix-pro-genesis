@@ -770,7 +770,7 @@ function thememixfcSave(t) {
 		);
 		
 		$extra_posts_args = apply_filters( 'thememixfc_extra_post_args', $extra_posts_args, $instance );
-		
+print_r( $extra_posts_args );die;
 		if ( !empty( $instance['optimize'] ) && !empty( $instance['custom_field'] ) ) {
 			if ( ! empty( $instance['delete_transients'] ) )
 				GS_Featured_Content::delete_transient( 'thememixfc_extra_' . $instance['custom_field'] );

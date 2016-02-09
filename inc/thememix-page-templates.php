@@ -39,10 +39,10 @@ class ThemeMix_Page_Templates {
 	 */
 	public function get_dynamic_page_templates() {
 
-		$current_dir = dirname (dirname( plugin_dir_url( __FILE__ ) ) );
-		var_dump( $current_dir );
+		$current_dir = dirname( dirname( __FILE__ ) );
 		$dir = $current_dir . '/page-templates/';
 		$dynamic_templates = array_diff( scandir( $dir ), array( '..', '.' ) );
+
 		return $dynamic_templates;
 	}
 
