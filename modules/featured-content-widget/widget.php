@@ -1777,29 +1777,46 @@ function thememixfcSave(t) {
 							printf( '<label for="%1$s">%2$s</label>', $obj->get_field_id( $field_id ), $args['label'] );
 							echo $args['description'] ? wpautop( $args['description'] ) : '';
 							break;
+						case 'colour_picker':
+							?>
+							<script type="text/javascript">
+								//<![CDATA[
+									jQuery(document).ready(function()
+									{
+										// colorpicker field
+										jQuery('.cw-color-picker').each(function(){
+											var $this = jQuery(this),
+												id = $this.attr('rel');
+
+											$this.farbtastic('#' + id);
+										});
+									});
+								//]]>
+							</script><?php
+
+							echo '
+							<label for="fontawesome-colour">' . __('Background Color:') . '</label>
+							<input class="widefat" id="fontawesome-colour" name="fontawesome-colour" type="text" value="';
+
+							if ( isset( $background ) ) {
+								echo $background;
+							} else {
+								echo '#fff';
+							}
+
+							echo '" />
+							<div class="cw-color-picker" rel="fontawesome-colour"></div>';
+
+							break;
 						case 'fontawesome' :
 
-
-?>
-<input class="regular-text dashicons-picker" id="dashicons_picker_example_icon1" type="text" value="test" />
-<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#dashicons_picker_example_icon1" />
-<?php
-
-
-
-/*
-
-							printf( '<input type="checkbox" id="%1$s" name="%2$s" value="1" class="widget-control-save" %3$s />',
+							printf( '<input type="textbox" id="%1$s" name="%2$s" class="dashicons-picker" widget-control-save" value="%3$s" />',
 								$obj->get_field_id( $field_id ),
 								$obj->get_field_name( $field_id ),
-								checked( 1, $instance[$field_id], false )
+								$instance[$field_id]
 								// $class
 							);
-							printf( '<label for="%1$s">%2$s</label>', $obj->get_field_id( $field_id ), $args['label'] );
-							echo $args['description'] ? wpautop( $args['description'] ) : '';
-*/
-
-
+							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#widget-featured-content-3-fontawesome-icon" />';
 							break;
 						case 'p' :
 						case 'description' :
