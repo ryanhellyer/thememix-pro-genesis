@@ -153,10 +153,19 @@ function thememixfc_inline_after_title_fontawesome( $content ) {
 }
 
 /**
- * Add Font Awesome stylesheet.
+ * Add Font Awesome related stylesheets.
  */
 function thememixfc_fontawesome_styles() {
 	$plugin_url = plugin_dir_url( __FILE__ );
 	wp_enqueue_style( 'font-awesome',  $plugin_url . 'css/font-awesome.min.css', array(), '1.0', false );
+	wp_enqueue_style('farbtastic');	
 }
 add_action( 'wp_enqueue_scripts', 'thememixfc_fontawesome_styles' );
+
+/**
+ * Add Farbtastic colour picker script.
+ */
+function thememixfc_fontawesome_color_picker_script() {
+	wp_enqueue_script('farbtastic');
+}
+add_action('admin_print_scripts-widgets.php', 'sample_load_color_picker_script');
