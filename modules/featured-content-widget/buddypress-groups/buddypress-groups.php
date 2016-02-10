@@ -5,7 +5,7 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 
 	$groups = BP_Groups_Group::get(array(
 		'type'     => 'alphabetical',
-		'per_page' => 999
+		'per_page' => 100
 	));
 	$the_groups = array();
 	foreach ( $groups['groups'] as $key => $group ) {
