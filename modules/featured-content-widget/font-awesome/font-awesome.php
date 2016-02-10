@@ -73,14 +73,37 @@ function thememixfc_top_fontawesome() {
 }
 add_action( 'thememixfc_before_post_content', 'thememixfc_top_fontawesome' );
 
+function themefix_fontawesome_init() {
+	$settings = get_option( 'widget_featured-content' );
+	if ( isset( $settings[3]['font-awesome'] ) && 1 == $settings[3]['font-awesome'] && isset( $settings[3]['fontawesome-position'] ) ) {
 
+		if ( 'middle' == $settings[3]['fontawesome-position'] ) {
+			$position = 'before_title';
+		}
+
+		// If position set, then add filter
+		if ( isset( $position ) ) {
+			add_filter( 'thememixfc_post_title_pattern', 'thememixfc_' . $position . '_fontawesome' );
+		}
+
+	}
+
+
+}
+add_action( 'init', 'themefix_fontawesome_init' );
+
+/**
+ *
+ */
 function thememixfc_before_title_fontawesome( $content ) {
 	$content = str_replace( '%s%s%s', '%s<span class="fa fa-camera-retro fa-3x"></span>%sA%s', $content );
 	return $content;
 }
-add_filter( 'thememixfc_post_title_pattern', 'thememixfc_before_title_fontawesome' );
 
 
+/**
+ * Add Font Awesome stylesheet.
+ */
 function thememixfc_fontawesome_styles() {
 	$plugin_url = plugin_dir_url( __FILE__ );
 	wp_enqueue_style( 'font-awesome',  $plugin_url . 'css/font-awesome.min.css', array(), '1.0', false );
