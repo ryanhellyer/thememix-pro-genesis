@@ -49,12 +49,12 @@ class GS_Featured_Content extends WP_Widget {
 	 * @since 0.1.8
 	 */
 	function __construct() {
+
 		GS_Featured_Content::$self = $this;
-		
 		$gfwa = genesis_get_option( 'thememixfc_gfwa' );
 		if ( $gfwa )
 			GS_Featured_Content::$base = 'featured-post';
-		
+
 		$this->defaults = apply_filters(
 			'thememixfc_defaults',
 			array(
@@ -132,7 +132,7 @@ class GS_Featured_Content extends WP_Widget {
 			'width'   => 505,
 			'height'  => 350,
 		);
-		
+
 		$name = __( 'Genesis Sandbox', 'thememixfc' );
 		if ( defined( 'CHILD_NAME' ) && true === apply_filters( 'thememixfc_widget_name', false ) )
 			$name = CHILD_THEME_NAME;
@@ -140,58 +140,62 @@ class GS_Featured_Content extends WP_Widget {
 			$name = apply_filters( 'thememixfc_widget_name', false );
 
 		parent::__construct( 'featured-content', sprintf( __( '%s - Featured Content', 'thememixfc' ), $name ), $widget_ops, $control_ops );
-		
-		
+
 		GS_Featured_Content::add();
 		do_action( 'thememixfc_actions', $this );
 	}
-	
+
 	/**
 	 * Adds all Widget's Actions at once for easy removal.
 	 */
 	public static function add() {
+
 		$self = GS_Featured_Content::$self;
-		
+
 		//* Form Fields
 		add_action( 'thememixfc_output_form_fields', array( 'GS_Featured_Content', 'do_form_fields' ), 10, 2 );
-		
+
 		//* Post Class
 		add_filter( 'post_class', array( 'GS_Featured_Content', 'post_class' ) );
-		
+
 		//* Excerpts
 		add_filter( 'excerpt_length', array( 'GS_Featured_Content', 'excerpt_length' ) );
 		add_filter( 'excerpt_more', array( 'GS_Featured_Content', 'excerpt_more' ) );
-		
-		//* Do Post Image
-		add_filter( 'genesis_attr_thememixfc-entry-image-widget', array( 'GS_Featured_Content', 'attributes_thememixfc_entry_image_widget' ) );
-		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
-		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
-		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
 
-		//* Do before widget post content
-		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ) );
-		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_title' ) );
+		$settings = get_option( 'widget_featured-content' );
+		if ( ! isset( $settings[3]['buddypress-group'] ) || 1 != $settings[3]['buddypress-group'] ) {
 
-		//* Maybe Linkify Widget Title
-		add_action( 'thememixfc_widget_title', array( $self, 'widget_title' ), 999, 3 );
-		
-		//* Do Post Info By Line
-		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_byline' ), 5 );
-		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_byline' ), 2 );
-		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_byline' ) );
-		
-		//* Do widget post content
-		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_content' ) );
-		
-		//* Do after widget post content
-		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_meta' ) );
-		
-		//* Do after loop
-		add_action( 'thememixfc_endwhile', array( 'GS_Featured_Content', 'do_posts_nav' ) );
-		
-		//* Do after loop reset
-		add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_extra_posts' ) );
-		add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_more_from_category' ) );
+			//* Do Post Image
+			add_filter( 'genesis_attr_thememixfc-entry-image-widget', array( 'GS_Featured_Content', 'attributes_thememixfc_entry_image_widget' ) );
+			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+			add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+			add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+
+			//* Do before widget post content
+			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ) );
+			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_title' ) );
+
+			//* Maybe Linkify Widget Title
+			add_action( 'thememixfc_widget_title', array( $self, 'widget_title' ), 999, 3 );
+			
+			//* Do Post Info By Line
+			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_byline' ), 5 );
+			add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_byline' ), 2 );
+			add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_byline' ) );
+			
+			//* Do widget post content
+			add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_content' ) );
+			
+			//* Do after widget post content
+			add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_meta' ) );
+			
+			//* Do after loop
+			add_action( 'thememixfc_endwhile', array( 'GS_Featured_Content', 'do_posts_nav' ) );
+			
+			//* Do after loop reset
+			add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_extra_posts' ) );
+			add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_more_from_category' ) );
+		}
 		
 		//* Admin Scripts
 		add_action( 'admin_enqueue_scripts', array( 'GS_Featured_Content', 'admin_scripts' ) );

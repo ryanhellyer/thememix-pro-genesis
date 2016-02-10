@@ -100,8 +100,6 @@ function thememixfc_top_fontawesome() {
 		if ( 1 == $settings[3]['font-awesome'] ) {
 			$icon     = $settings[3]['fontawesome-icon'];
 			$position = $settings[3]['fontawesome-position'];
-	echo $position."\n";
-	echo $icon."\n\n\n\n\n";
 		}
 	}
 }
