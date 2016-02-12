@@ -441,8 +441,8 @@ class GS_Featured_Content extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public static function framework( $instance ) {
-		global $gs_counter;
-		
+		global $gs_counter, $existing_groups;
+
 		genesis_markup( array(
 			'html5'   => '<article %s>',
 			'xhtml'   => sprintf( '<div class="%s">', implode( ' ', get_post_class() ) ),
@@ -455,6 +455,11 @@ class GS_Featured_Content extends WP_Widget {
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
 		} else {
+
+			if ( ! isset( $existing_groups ) ) {
+				$existing_groups = array();
+			}
+
 			$posts_per_page = $instance['query_args']['posts_per_page'];
 			$groups = BP_Groups_Group::get(array(
 				'type'=>'alphabetical',
@@ -463,17 +468,22 @@ class GS_Featured_Content extends WP_Widget {
 			$groups = $groups['groups'];
 			foreach ( $groups as $key => $group ) {
 
-				$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+				if ( ! in_array( $group->id, $existing_groups ) && ! isset( $done ) ) {
+					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
 
-				echo '
-				<article itemscope="itemscope" itemtype="http://schema.org/Event">
-					<div style="width:100%;text-align:center;">
-						<span class="fa fa-camera-retro fa-3x"></span>
-					</div>
-					<h2 class="entry-title">
-						<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
-					</h2>
-				</article>';
+					echo '
+					<article itemscope="itemscope" itemtype="http://schema.org/Event">
+						<div style="width:100%;text-align:center;">
+							<span class="fa fa-camera-retro fa-3x"></span>
+						</div>
+						<h2 class="entry-title">
+							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
+						</h2>
+					</article>';
+
+					$existing_groups[] = $group->id;
+					$done = true;
+				}
 
 			}
 
