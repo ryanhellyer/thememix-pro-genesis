@@ -162,40 +162,36 @@ class GS_Featured_Content extends WP_Widget {
 		add_filter( 'excerpt_length', array( 'GS_Featured_Content', 'excerpt_length' ) );
 		add_filter( 'excerpt_more', array( 'GS_Featured_Content', 'excerpt_more' ) );
 
-		$settings = get_option( 'widget_featured-content' );
-		if ( ! isset( $settings[3]['buddypress-group'] ) || 1 != $settings[3]['buddypress-group'] ) {
+		//* Do Post Image
+		add_filter( 'genesis_attr_thememixfc-entry-image-widget', array( 'GS_Featured_Content', 'attributes_thememixfc_entry_image_widget' ) );
+		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
 
-			//* Do Post Image
-			add_filter( 'genesis_attr_thememixfc-entry-image-widget', array( 'GS_Featured_Content', 'attributes_thememixfc_entry_image_widget' ) );
-			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
-			add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
-			add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+		//* Do before widget post content
+		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ) );
+		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_title' ) );
 
-			//* Do before widget post content
-			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ) );
-			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_title' ) );
-
-			//* Maybe Linkify Widget Title
-			add_action( 'thememixfc_widget_title', array( $self, 'widget_title' ), 999, 3 );
-			
-			//* Do Post Info By Line
-			add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_byline' ), 5 );
-			add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_byline' ), 2 );
-			add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_byline' ) );
-			
-			//* Do widget post content
-			add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_content' ) );
-			
-			//* Do after widget post content
-			add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_meta' ) );
-			
-			//* Do after loop
-			add_action( 'thememixfc_endwhile', array( 'GS_Featured_Content', 'do_posts_nav' ) );
-			
-			//* Do after loop reset
-			add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_extra_posts' ) );
-			add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_more_from_category' ) );
-		}
+		//* Maybe Linkify Widget Title
+		add_action( 'thememixfc_widget_title', array( $self, 'widget_title' ), 999, 3 );
+		
+		//* Do Post Info By Line
+		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_byline' ), 5 );
+		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_byline' ), 2 );
+		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_byline' ) );
+		
+		//* Do widget post content
+		add_action( 'thememixfc_post_content', array( 'GS_Featured_Content', 'do_post_content' ) );
+		
+		//* Do after widget post content
+		add_action( 'thememixfc_after_post_content', array( 'GS_Featured_Content', 'do_post_meta' ) );
+		
+		//* Do after loop
+		add_action( 'thememixfc_endwhile', array( 'GS_Featured_Content', 'do_posts_nav' ) );
+		
+		//* Do after loop reset
+		add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_extra_posts' ) );
+		add_action( 'thememixfc_after_loop_reset', array( 'GS_Featured_Content', 'do_more_from_category' ) );
 		
 		//* Admin Scripts
 		add_action( 'admin_enqueue_scripts', array( 'GS_Featured_Content', 'admin_scripts' ) );
@@ -453,9 +449,12 @@ class GS_Featured_Content extends WP_Widget {
 			'context' => 'entry',
 		) );
 
-		GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
-		GS_Featured_Content::action( 'thememixfc_post_content', $instance );
-		GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
+		$settings = get_option( 'widget_featured-content' );
+		if ( ! isset( $settings[3]['buddypress-group'] ) || 1 != $settings[3]['buddypress-group'] ) {
+			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
+			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
+			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
+		}
 
 		$gs_counter++;
 
