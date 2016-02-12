@@ -123,7 +123,7 @@ function themefix_fontawesome_init() {
 		}
 
 		if ( 'after_title' == $position ) {
-			add_action( 'thememixfc_after_post_content', 'thememixfc_' . $position . '_fontawesome' );
+			add_action( 'thememixfc_after_post_content', 'thememixfc_span_fontawesome' );
 		}
 
 	}
@@ -131,11 +131,7 @@ function themefix_fontawesome_init() {
 }
 add_action( 'init', 'themefix_fontawesome_init' );
 
-function thememixfc_before_title_fontawesome() {
-	echo '<div style="width:100%;text-align:center;"><span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span></div>';
-}
-
-function thememixfc_after_title_fontawesome() {
+function thememixfc_span_fontawesome() {
 	echo '<div style="width:100%;text-align:center;"><span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span></div>';
 }
 
