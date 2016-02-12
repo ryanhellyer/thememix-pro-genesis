@@ -454,6 +454,27 @@ class GS_Featured_Content extends WP_Widget {
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
+		} else {
+			$posts_per_page = $instance['query_args']['posts_per_page'];
+			$groups = BP_Groups_Group::get(array(
+				'type'=>'alphabetical',
+				'per_page'=>$posts_per_page
+			));
+			$groups = $groups['groups'];
+			foreach ( $groups as $key => $group ) {
+
+				echo '
+				<article itemscope="itemscope" itemtype="http://schema.org/Event">
+					<div style="width:100%;text-align:center;">
+						<span class="fa fa-camera-retro fa-3x"></span>
+					</div>
+					<h2 class="entry-title">
+						<a href="XXXX" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
+					</h2>
+				</article>';
+
+			}
+
 		}
 
 		$gs_counter++;
