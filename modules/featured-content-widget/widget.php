@@ -471,14 +471,98 @@ class GS_Featured_Content extends WP_Widget {
 				if ( ! in_array( $group->id, $existing_groups ) && ! isset( $done ) ) {
 					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
 
+					// Get image HTML
+					if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
+
+						$sizes = thememixprofc_get_image_sizes();
+						if ( isset( $sizes[$settings[3]['image_size']]['width'] ) ) {
+							$width = absint( $sizes[$settings[3]['image_size']]['width'] );
+						} else {
+							$width = 150;
+						}
+						if ( isset( $sizes[$settings[3]['image_size']]['height'] ) ) {
+							$height = absint( $sizes[$settings[3]['image_size']]['height'] );
+						} else {
+							$height = 150;
+						}
+
+						if ( isset( $settings[3]['image_alignment'] ) && '' != $settings[3]['image_alignment'] ) {
+							$image_alignment = $settings[3]['image_alignment'];
+						} else {
+							$image_alignment = 'alignnone';
+						}
+						$image_html = '<img width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '" src="' . esc_url( $image_url ) . '" class="' . esc_attr( 'entry-image attachment-post ' . $image_alignment ) . '" itemprop="image" />';
+
+						if ( isset( $settings[3]['link_image'] ) && 1 == $settings[3]['link_image'] ) {
+
+							$avatar_options = array (
+								'item_id'    => $group->id,
+								'object'     => 'group',
+								'type'       => 'full',
+								'avatar_dir' => 'group-avatars',
+								'alt'        => 'Group avatar',
+								'css_id'     => 1234,
+								'class'      => 'avatar',
+								'width'      => $width,
+								'height'     => $height,
+								'html'       => false
+							);
+							$image_url = bp_core_fetch_avatar($avatar_options);
+
+							$image_html = '
+							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '" class="alignnone">
+								' . $image_html . '
+							</a>';
+						}
+					}
+
+/*
+[show_image] => 1
+[link_image] => 1
+
+[link_image_field] => 
+[image_size] => thumbnail
+[image_position] => before-title
+[image_alignment] => 
+*/
 					echo '
 					<article itemscope="itemscope" itemtype="http://schema.org/Event">
 						<div style="width:100%;text-align:center;">
 							<span class="fa fa-camera-retro fa-3x"></span>
-						</div>
+						</div>';
+
+					if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
+						echo $image_html;
+					}
+
+					echo '
 						<h2 class="entry-title">
 							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
-						</h2>
+						</h2>';
+
+					if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
+						echo $image_html;
+					}
+/*
+echo "\n\n\n\n\n\n";
+print_r( $settings);
+echo "\n\n\n\n\n\n";
+print_r( $group->description );
+secho "\n\n\n\n\n\n";
+die;
+// LOAD CONTENT HERE
+*/
+
+					// Load content
+					if ( isset( $settings[3]['buddypress-group-content'] ) && 1 == $settings[3]['buddypress-group-content'] ) {
+						echo $group->description;
+					}
+
+					if ( isset( $settings[3]['image_position'] ) && 'after-content' == $settings[3]['image_position'] ) {
+						echo $image_html;
+					}
+
+					echo '
 					</article>';
 
 					$existing_groups[] = $group->id;
