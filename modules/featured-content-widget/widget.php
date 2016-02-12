@@ -470,6 +470,7 @@ class GS_Featured_Content extends WP_Widget {
 
 				if ( ! in_array( $group->id, $existing_groups ) && ! isset( $done ) ) {
 					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+					$fontawesome_position = $settings[3]['fontawesome-position'];
 
 					// Get image HTML
 					if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
@@ -516,42 +517,41 @@ class GS_Featured_Content extends WP_Widget {
 						}
 					}
 
-/*
-[show_image] => 1
-[link_image] => 1
-
-[link_image_field] => 
-[image_size] => thumbnail
-[image_position] => before-title
-[image_alignment] => 
-*/
 					echo '
-					<article itemscope="itemscope" itemtype="http://schema.org/Event">
-						<div style="width:100%;text-align:center;">
-							<span class="fa fa-camera-retro fa-3x"></span>
-						</div>';
+					<article itemscope="itemscope" itemtype="http://schema.org/Event">';
 
 					if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
 						echo $image_html;
 					}
 
+					if ( 'before_title' == $fontawesome_position ) {
+						echo thememixfc_span_fontawesome();
+					}
+
 					echo '
-						<h2 class="entry-title">
-							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
+						<h2 class="entry-title">';
+
+					if ( 'inline_before_title' == $fontawesome_position ) {
+						echo thememixfc_span_fontawesome();
+					}
+
+					echo '
+							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
+
+					if ( 'inline_after_title' == $fontawesome_position ) {
+						echo thememixfc_span_fontawesome();
+					}
+
+					echo '
 						</h2>';
+
+					if ( 'after_title' == $fontawesome_position ) {
+						echo thememixfc_span_fontawesome();
+					}
 
 					if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
 						echo $image_html;
 					}
-/*
-echo "\n\n\n\n\n\n";
-print_r( $settings);
-echo "\n\n\n\n\n\n";
-print_r( $group->description );
-secho "\n\n\n\n\n\n";
-die;
-// LOAD CONTENT HERE
-*/
 
 					// Load content
 					if ( isset( $settings[3]['buddypress-group-content'] ) && 1 == $settings[3]['buddypress-group-content'] ) {
