@@ -441,7 +441,7 @@ class GS_Featured_Content extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public static function framework( $instance ) {
-		global $gs_counter, $existing_groups;
+		global $gs_counter, $processed_activities;
 
 		genesis_markup( array(
 			'html5'   => '<article %s>',
@@ -456,142 +456,87 @@ class GS_Featured_Content extends WP_Widget {
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
 		} else {
 
-			if ( ! isset( $existing_groups ) ) {
-				$existing_groups = array();
+			if ( ! isset( $processed_activities ) ) {
+				$processed_activities = array();
 			}
 
-			$posts_per_page = $instance['query_args']['posts_per_page'];
-			$groups = BP_Groups_Group::get(array(
-				'type'     => 'alphabetical',
-				'per_page' => $posts_per_page
-			));
+			$group_id = $settings[3]['buddypress-group-group'];
+			if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group_id ) ) {
+				while ( bp_activities() ) {
+					bp_the_activity();
+					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+					$fontawesome_position = $settings[3]['fontawesome-position'];
 
-			$groups = $groups['groups'];
-			foreach ( $groups as $key => $group ) {
+					$activity_id = bp_get_activity_id();
 
-				if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group->id ) ) {
-					while ( bp_activities() ) {
-						bp_the_activity();
-						//echo "\n$group->id";
-						/*<li id="bp-activity-<?php bp_activity_id(); ?>" class="<?php bp_activity_css_class(); ?>">*/
+					if ( ! in_array( $activity_id, $processed_activities ) && ! isset( $done ) ) {
 
-						echo '<a href="'; bp_activity_user_link(); echo '">';
-						bp_activity_avatar( 'type=thumb' );
-						echo '</a>';
+						// Get image HTML
+						if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
+							$size = $settings[3]['image_size'];
+							$image_html = bp_get_activity_avatar( 'type=' . $size );
+
+							// Add image link to image HTML
+							if ( isset( $settings[3]['link_image'] ) && 1 == $settings[3]['link_image'] ) {
+								$image_html = '<a href="' . esc_attr( bp_get_activity_user_link() ) . '">' . $image_html . '</a>';
+							}
+
+						}
+
+						echo '
+						<article itemscope="itemscope" itemtype="http://schema.org/Event">';
+
+						if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
+							echo $image_html;
+						}
+
+						if ( 'before_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						echo '
+							<h2 class="entry-title">';
+
+						if ( 'inline_before_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						echo '
+								<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
+
+						if ( 'inline_after_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						echo '
+							</h2>';
+
+						if ( 'after_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
+							echo $image_html;
+						}
 
 						if ( bp_activity_has_content() ) {
 							bp_activity_content_body();
 						}
 
+						if ( isset( $settings[3]['image_position'] ) && 'after-content' == $settings[3]['image_position'] ) {
+							echo $image_html;
+						}
+
+						echo '
+						</article>';
+
+						$processed_activities[] = $activity_id;
+						$done = true;
 					}
 				}
-
-
-				if ( ! in_array( $group->id, $existing_groups ) && ! isset( $done ) ) {
-					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
-					$fontawesome_position = $settings[3]['fontawesome-position'];
-
-					// Get image HTML
-					if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
-
-						$sizes = thememixprofc_get_image_sizes();
-						if ( isset( $sizes[$settings[3]['image_size']]['width'] ) ) {
-							$width = absint( $sizes[$settings[3]['image_size']]['width'] );
-						} else {
-							$width = 150;
-						}
-						if ( isset( $sizes[$settings[3]['image_size']]['height'] ) ) {
-							$height = absint( $sizes[$settings[3]['image_size']]['height'] );
-						} else {
-							$height = 150;
-						}
-
-						if ( isset( $settings[3]['image_alignment'] ) && '' != $settings[3]['image_alignment'] ) {
-							$image_alignment = $settings[3]['image_alignment'];
-						} else {
-							$image_alignment = 'alignnone';
-						}
-						$image_html = '<img width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '" src="' . esc_url( $image_url ) . '" class="' . esc_attr( 'entry-image attachment-post ' . $image_alignment ) . '" itemprop="image" />';
-
-						if ( isset( $settings[3]['link_image'] ) && 1 == $settings[3]['link_image'] ) {
-
-							$avatar_options = array (
-								'item_id'    => $group->id,
-								'object'     => 'group',
-								'type'       => 'full',
-								'avatar_dir' => 'group-avatars',
-								'alt'        => 'Group avatar',
-								'css_id'     => 1234,
-								'class'      => 'avatar',
-								'width'      => $width,
-								'height'     => $height,
-								'html'       => false
-							);
-							$image_url = bp_core_fetch_avatar($avatar_options);
-
-							$image_html = '
-							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '" class="alignnone">
-								' . $image_html . '
-							</a>';
-						}
-					}
-
-					echo '
-					<article itemscope="itemscope" itemtype="http://schema.org/Event">';
-
-					if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
-						echo $image_html;
-					}
-
-					if ( 'before_title' == $fontawesome_position ) {
-						echo thememixfc_span_fontawesome();
-					}
-
-					echo '
-						<h2 class="entry-title">';
-
-					if ( 'inline_before_title' == $fontawesome_position ) {
-						echo thememixfc_span_fontawesome();
-					}
-
-					echo '
-							<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
-
-					if ( 'inline_after_title' == $fontawesome_position ) {
-						echo thememixfc_span_fontawesome();
-					}
-
-					echo '
-						</h2>';
-
-					if ( 'after_title' == $fontawesome_position ) {
-						echo thememixfc_span_fontawesome();
-					}
-
-					if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
-						echo $image_html;
-					}
-
-					// Load content
-					if ( isset( $settings[3]['buddypress-group-content'] ) && 1 == $settings[3]['buddypress-group-content'] ) {
-						echo $group->description;
-					}
-
-					if ( isset( $settings[3]['image_position'] ) && 'after-content' == $settings[3]['image_position'] ) {
-						echo $image_html;
-					}
-
-					echo '
-					</article>';
-
-					$existing_groups[] = $group->id;
-					$done = true;
-				}
-
 			}
 
 		}
-
 		$gs_counter++;
 
 		genesis_markup( array(

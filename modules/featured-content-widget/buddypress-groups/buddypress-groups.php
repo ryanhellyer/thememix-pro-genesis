@@ -29,16 +29,6 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 				true
 			),
 		),
-		'buddypress-group-content' => array(
-			'label'       => __( 'Show BuddyPress content', 'thememixfc' ),
-			'description' => '',
-			'type'        => 'checkbox',
-			'requires'    => array(
-				'buddypress-group',
-				'',
-				true
-			),
-		),
 	);
 
 	$args['col1'][0] = array_slice( $args['col1'][0], 0, 1, true ) +
