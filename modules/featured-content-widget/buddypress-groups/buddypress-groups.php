@@ -5,7 +5,7 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 
 	$groups = BP_Groups_Group::get(array(
 		'type'     => 'alphabetical',
-		'per_page' => 999
+		'per_page' => 100
 	));
 	$the_groups = array();
 	foreach ( $groups['groups'] as $key => $group ) {
@@ -47,16 +47,16 @@ function thememixfc_buddypress_query( $query_args ) {
 //$query_args = new WP_Query( $query_args ) 
 
 
-
-	print_r( $args );die;
+//	print_r( $query_args );die;
 	echo "\n\n\n\n\n\________________n\n\n\n\n";
 
 	$settings = get_option( 'widget_featured-content' );
+
 	if ( 1 == $settings[3]['buddypress-group'] ) {
-		print_r( $thememixfc_query );
+		print_r( $query_args );
 		die;
 	}
-	echo "\n\n\n\n\n\________________n\n\n\n\n";
-	//[3][buddypress-group]
+
+	echo 'END';
 	die;
 }

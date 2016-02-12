@@ -49,12 +49,12 @@ class GS_Featured_Content extends WP_Widget {
 	 * @since 0.1.8
 	 */
 	function __construct() {
+
 		GS_Featured_Content::$self = $this;
-		
 		$gfwa = genesis_get_option( 'thememixfc_gfwa' );
 		if ( $gfwa )
 			GS_Featured_Content::$base = 'featured-post';
-		
+
 		$this->defaults = apply_filters(
 			'thememixfc_defaults',
 			array(
@@ -132,7 +132,7 @@ class GS_Featured_Content extends WP_Widget {
 			'width'   => 505,
 			'height'  => 350,
 		);
-		
+
 		$name = __( 'Genesis Sandbox', 'thememixfc' );
 		if ( defined( 'CHILD_NAME' ) && true === apply_filters( 'thememixfc_widget_name', false ) )
 			$name = CHILD_THEME_NAME;
@@ -140,28 +140,28 @@ class GS_Featured_Content extends WP_Widget {
 			$name = apply_filters( 'thememixfc_widget_name', false );
 
 		parent::__construct( 'featured-content', sprintf( __( '%s - Featured Content', 'thememixfc' ), $name ), $widget_ops, $control_ops );
-		
-		
+
 		GS_Featured_Content::add();
 		do_action( 'thememixfc_actions', $this );
 	}
-	
+
 	/**
 	 * Adds all Widget's Actions at once for easy removal.
 	 */
 	public static function add() {
+
 		$self = GS_Featured_Content::$self;
-		
+
 		//* Form Fields
 		add_action( 'thememixfc_output_form_fields', array( 'GS_Featured_Content', 'do_form_fields' ), 10, 2 );
-		
+
 		//* Post Class
 		add_filter( 'post_class', array( 'GS_Featured_Content', 'post_class' ) );
-		
+
 		//* Excerpts
 		add_filter( 'excerpt_length', array( 'GS_Featured_Content', 'excerpt_length' ) );
 		add_filter( 'excerpt_more', array( 'GS_Featured_Content', 'excerpt_more' ) );
-		
+
 		//* Do Post Image
 		add_filter( 'genesis_attr_thememixfc-entry-image-widget', array( 'GS_Featured_Content', 'attributes_thememixfc_entry_image_widget' ) );
 		add_action( 'thememixfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
@@ -441,18 +441,102 @@ class GS_Featured_Content extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public static function framework( $instance ) {
-		global $gs_counter;
-		
+		global $gs_counter, $processed_activities;
+
 		genesis_markup( array(
 			'html5'   => '<article %s>',
 			'xhtml'   => sprintf( '<div class="%s">', implode( ' ', get_post_class() ) ),
 			'context' => 'entry',
 		) );
 
-		GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
-		GS_Featured_Content::action( 'thememixfc_post_content', $instance );
-		GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
+		$settings = get_option( 'widget_featured-content' );
+		if ( ! isset( $settings[3]['buddypress-group'] ) || 1 != $settings[3]['buddypress-group'] ) {
+			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
+			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
+			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
+		} else {
 
+			if ( ! isset( $processed_activities ) ) {
+				$processed_activities = array();
+			}
+
+			$group_id = $settings[3]['buddypress-group-group'];
+			if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group_id ) ) {
+				while ( bp_activities() ) {
+					bp_the_activity();
+					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+					$fontawesome_position = $settings[3]['fontawesome-position'];
+
+					$activity_id = bp_get_activity_id();
+
+					if ( ! in_array( $activity_id, $processed_activities ) && ! isset( $done ) ) {
+
+						// Get image HTML
+						if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
+							$size = $settings[3]['image_size'];
+							$image_html = bp_get_activity_avatar( 'type=' . $size );
+
+							// Add image link to image HTML
+							if ( isset( $settings[3]['link_image'] ) && 1 == $settings[3]['link_image'] ) {
+								$image_html = '<a href="' . esc_attr( bp_get_activity_user_link() ) . '">' . $image_html . '</a>';
+							}
+
+						}
+
+						echo '
+						<article itemscope="itemscope" itemtype="http://schema.org/Event">';
+
+						if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
+							echo $image_html;
+						}
+
+						if ( 'before_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						echo '
+							<h2 class="entry-title">';
+
+						if ( 'inline_before_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						echo '
+								<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
+
+						if ( 'inline_after_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						echo '
+							</h2>';
+
+						if ( 'after_title' == $fontawesome_position ) {
+							echo thememixfc_span_fontawesome();
+						}
+
+						if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
+							echo $image_html;
+						}
+
+						if ( bp_activity_has_content() ) {
+							bp_activity_content_body();
+						}
+
+						if ( isset( $settings[3]['image_position'] ) && 'after-content' == $settings[3]['image_position'] ) {
+							echo $image_html;
+						}
+
+						echo '
+						</article>';
+
+						$processed_activities[] = $activity_id;
+						$done = true;
+					}
+				}
+			}
+
+		}
 		$gs_counter++;
 
 		genesis_markup( array(

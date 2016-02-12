@@ -21,7 +21,9 @@ function themefixfc_grid_styling() {
 	}
 
 	// Set actual number of columns based on how many posts are being loaded (no point in doing 25% width for a single post)
-	if ( $thememixfc_grid_counter < $chosen_number_of_columns ) {
+	if  ( isset( $settings[3]['buddypress-group'] ) || 1 == $settings[3]['buddypress-group'] ) {
+		$actual_number_of_columns = $chosen_number_of_columns;
+	} elseif ( $thememixfc_grid_counter < $chosen_number_of_columns ) {
 		$actual_number_of_columns = $thememixfc_grid_counter;
 	} else {
 		$actual_number_of_columns = $chosen_number_of_columns;

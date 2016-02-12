@@ -100,8 +100,6 @@ function thememixfc_top_fontawesome() {
 		if ( 1 == $settings[3]['font-awesome'] ) {
 			$icon     = $settings[3]['fontawesome-icon'];
 			$position = $settings[3]['fontawesome-position'];
-	echo $position."\n";
-	echo $icon."\n\n\n\n\n";
 		}
 	}
 }
@@ -117,15 +115,15 @@ function themefix_fontawesome_init() {
 			'inline_after_title',
 		);
 		if ( in_array( $position, $positions ) ) {
-			add_filter( 'thememixfc_post_title_pattern', 'thememixfc_' . $position . '_fontawesome' );
+			add_filter( 'thememixfc_post_title_pattern', 'thememixfc_span_fontawesome' );
 		}
 
 		if ( 'before_title' == $position ) {
-			add_action( 'thememixfc_before_post_content', 'thememixfc_' . $position . '_fontawesome', 1 );
+			add_action( 'thememixfc_before_post_content', 'thememixfc_span_fontawesome', 1 );
 		}
 
 		if ( 'after_title' == $position ) {
-			add_action( 'thememixfc_after_post_content', 'thememixfc_' . $position . '_fontawesome' );
+			add_action( 'thememixfc_after_post_content', 'thememixfc_span_fontawesome' );
 		}
 
 	}
@@ -133,11 +131,7 @@ function themefix_fontawesome_init() {
 }
 add_action( 'init', 'themefix_fontawesome_init' );
 
-function thememixfc_before_title_fontawesome() {
-	echo '<div style="width:100%;text-align:center;"><span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span></div>';
-}
-
-function thememixfc_after_title_fontawesome() {
+function thememixfc_span_fontawesome() {
 	echo '<div style="width:100%;text-align:center;"><span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span></div>';
 }
 
