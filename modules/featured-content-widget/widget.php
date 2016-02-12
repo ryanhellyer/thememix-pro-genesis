@@ -463,13 +463,15 @@ class GS_Featured_Content extends WP_Widget {
 			$groups = $groups['groups'];
 			foreach ( $groups as $key => $group ) {
 
+				$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+
 				echo '
 				<article itemscope="itemscope" itemtype="http://schema.org/Event">
 					<div style="width:100%;text-align:center;">
 						<span class="fa fa-camera-retro fa-3x"></span>
 					</div>
 					<h2 class="entry-title">
-						<a href="XXXX" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
+						<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>
 					</h2>
 				</article>';
 
