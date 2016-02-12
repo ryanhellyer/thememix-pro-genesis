@@ -462,11 +462,30 @@ class GS_Featured_Content extends WP_Widget {
 
 			$posts_per_page = $instance['query_args']['posts_per_page'];
 			$groups = BP_Groups_Group::get(array(
-				'type'=>'alphabetical',
-				'per_page'=>$posts_per_page
+				'type'     => 'alphabetical',
+				'per_page' => $posts_per_page
 			));
+
 			$groups = $groups['groups'];
 			foreach ( $groups as $key => $group ) {
+
+				if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group->id ) ) {
+					while ( bp_activities() ) {
+						bp_the_activity();
+						//echo "\n$group->id";
+						/*<li id="bp-activity-<?php bp_activity_id(); ?>" class="<?php bp_activity_css_class(); ?>">*/
+
+						echo '<a href="'; bp_activity_user_link(); echo '">';
+						bp_activity_avatar( 'type=thumb' );
+						echo '</a>';
+
+						if ( bp_activity_has_content() ) {
+							bp_activity_content_body();
+						}
+
+					}
+				}
+
 
 				if ( ! in_array( $group->id, $existing_groups ) && ! isset( $done ) ) {
 					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
