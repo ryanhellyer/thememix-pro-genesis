@@ -37,26 +37,3 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 
 	return $args;
 }
-
-
-
-
-//add_filter( 'thememixfc_query_results', 'thememixfc_buddypress_query' );
-function thememixfc_buddypress_query( $query_args ) {
-
-//$query_args = new WP_Query( $query_args ) 
-
-
-//	print_r( $query_args );die;
-	echo "\n\n\n\n\n\________________n\n\n\n\n";
-
-	$settings = get_option( 'widget_featured-content' );
-
-	if ( 1 == $settings[3]['buddypress-group'] ) {
-		print_r( $query_args );
-		die;
-	}
-
-	echo 'END';
-	die;
-}
