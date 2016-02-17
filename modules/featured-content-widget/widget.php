@@ -450,7 +450,9 @@ class GS_Featured_Content extends WP_Widget {
 		) );
 
 		$settings = get_option( 'widget_featured-content' );
-		if ( ! isset( $settings[3]['buddypress-group'] ) || 1 != $settings[3]['buddypress-group'] ) {
+
+		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
+		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
@@ -460,24 +462,25 @@ class GS_Featured_Content extends WP_Widget {
 				$processed_activities = array();
 			}
 
-			$group_id = $settings[3]['buddypress-group-group'];
+			$group_id = $settings[$key]['buddypress-group-group'];
+
 			if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group_id ) ) {
 				while ( bp_activities() ) {
 					bp_the_activity();
 					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
-					$fontawesome_position = $settings[3]['fontawesome-position'];
+					$fontawesome_position = $settings[$key]['fontawesome-position'];
 
 					$activity_id = bp_get_activity_id();
 
 					if ( ! in_array( $activity_id, $processed_activities ) && ! isset( $done ) ) {
 
 						// Get image HTML
-						if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
-							$size = $settings[3]['image_size'];
+						if ( isset( $settings[$key]['show_image'] ) && 1 == $settings[$key]['show_image'] ) {
+							$size = $settings[$key]['image_size'];
 							$image_html = bp_get_activity_avatar( 'type=' . $size );
 
 							// Add image link to image HTML
-							if ( isset( $settings[3]['link_image'] ) && 1 == $settings[3]['link_image'] ) {
+							if ( isset( $settings[$key]['link_image'] ) && 1 == $settings[$key]['link_image'] ) {
 								$image_html = '<a href="' . esc_attr( bp_get_activity_user_link() ) . '">' . $image_html . '</a>';
 							}
 
@@ -486,7 +489,7 @@ class GS_Featured_Content extends WP_Widget {
 						echo '
 						<article itemscope="itemscope" itemtype="http://schema.org/Event">';
 
-						if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
+						if ( isset( $settings[$key]['image_position'] ) && 'before-title' == $settings[$key]['image_position'] ) {
 							echo $image_html;
 						}
 
@@ -515,7 +518,7 @@ class GS_Featured_Content extends WP_Widget {
 							echo thememixfc_span_fontawesome();
 						}
 
-						if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
+						if ( isset( $settings[$key]['image_position'] ) && 'after-title' == $settings[$key]['image_position'] ) {
 							echo $image_html;
 						}
 
@@ -523,7 +526,7 @@ class GS_Featured_Content extends WP_Widget {
 							bp_activity_content_body();
 						}
 
-						if ( isset( $settings[3]['image_position'] ) && 'after-content' == $settings[3]['image_position'] ) {
+						if ( isset( $settings[$key]['image_position'] ) && 'after-content' == $settings[$key]['image_position'] ) {
 							echo $image_html;
 						}
 
@@ -535,7 +538,6 @@ class GS_Featured_Content extends WP_Widget {
 					}
 				}
 			}
-
 		}
 		$gs_counter++;
 
