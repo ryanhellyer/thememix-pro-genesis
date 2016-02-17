@@ -126,9 +126,7 @@ function thememixfc_get_size_fontawesome( $key ) {
  * Add Font Awesome stylesheet.
  */
 function thememixfc_fontawesome_styles() {
-	$plugin_url = plugin_dir_url( __FILE__ );
-	wp_enqueue_style( 'font-awesome',  $plugin_url . 'css/font-awesome.min.css', array(), '1.0', false );
-	wp_enqueue_style('farbtastic');	
+	wp_enqueue_style( 'dashicons' );
 }
 add_action( 'wp_enqueue_scripts', 'thememixfc_fontawesome_styles' );
 
