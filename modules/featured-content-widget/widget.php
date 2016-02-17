@@ -1713,7 +1713,7 @@ function thememixfcSave(t) {
 			else
 				$col_class = 'thememixfc-wide-box';
 			printf( '<div class="%s">', $col_class );
-			
+
 			foreach( $boxes as $box ) {
 				$box_style = isset( $box['box_requires'] ) ? ' style="'. GS_Featured_Content::get_display_option( $instance, $box['box_requires'] ) .'"' : '';
 				// $box_style = isset( $box['box_requires'] ) ? ' style="'. GS_Featured_Content::get_display_option( $instance, $box['box_requires'][0], $box['box_requires'][1], $box['box_requires'][2] ) .'"' : '';
@@ -1902,7 +1902,7 @@ function thememixfcSave(t) {
 								$instance[$field_id]
 								// $class
 							);
-							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#widget-featured-content-3-fontawesome-icon" />';
+							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="' . esc_attr( '#' . $obj->get_field_id( $field_id ) ) . '" />';
 							break;
 						case 'p' :
 						case 'description' :
