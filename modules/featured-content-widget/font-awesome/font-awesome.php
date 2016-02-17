@@ -98,7 +98,16 @@ function thememixfc_span_fontawesome( $key ) {
 		return;
 	}
 
-	echo '<div style="width:100%;text-align:center;"><span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+	if ( isset( $settings[$key]['fontawesome-icon'] ) ) {
+		$icon = $settings[$key]['fontawesome-icon'];
+	} else {
+		$icon = 'fa-camera-retro';
+	}
+
+	$icon = str_replace( 'dashicons-', '', $icon );
+//	echo $icon;die;
+
+	echo '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
 }
 
 function thememixfc_get_size_fontawesome( $key ) {
