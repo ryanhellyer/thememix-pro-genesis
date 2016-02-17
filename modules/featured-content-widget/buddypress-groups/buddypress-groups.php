@@ -33,6 +33,17 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 				true
 			),
 		),
+		'buddypress-group-count' => array(
+			'label'       => __( 'Number of activities to show', 'thememixfc' ),
+			'description' => '',
+			'type'        => 'select',
+			'options'     => array( 1, 2, 3, 4, 5, 6, 7, 8 ),
+			'requires'    => array(
+				'buddypress-group',
+				'',
+				true
+			),
+		),
 	);
 
 	$args['col1'][0] = array_slice( $args['col1'][0], 0, 1, true ) +
