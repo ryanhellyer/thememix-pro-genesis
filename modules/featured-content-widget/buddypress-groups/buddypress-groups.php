@@ -3,6 +3,10 @@
 add_filter( 'thememixfc_form_fields', 'themefix_buddypress_groups_settings_extension' );
 function themefix_buddypress_groups_settings_extension( $args ) {
 
+	if ( ! function_exists( 'BP_Groups_Group' ) ) {
+		return $args;
+	}
+
 	$groups = BP_Groups_Group::get(array(
 		'type'     => 'alphabetical',
 		'per_page' => 100
