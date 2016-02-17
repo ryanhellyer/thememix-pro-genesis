@@ -450,7 +450,11 @@ class GS_Featured_Content extends WP_Widget {
 		) );
 
 		$settings = get_option( 'widget_featured-content' );
-		if ( ! isset( $settings[3]['buddypress-group'] ) || 1 != $settings[3]['buddypress-group'] ) {
+
+		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
+		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
+$instance['posts_num'] = 3;
+$instance['buddypress_group_posts'] = 9;
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
@@ -460,24 +464,25 @@ class GS_Featured_Content extends WP_Widget {
 				$processed_activities = array();
 			}
 
-			$group_id = $settings[3]['buddypress-group-group'];
+			$group_id = $settings[$key]['buddypress-group-group'];
+
 			if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group_id ) ) {
 				while ( bp_activities() ) {
 					bp_the_activity();
 					$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
-					$fontawesome_position = $settings[3]['fontawesome-position'];
+					$fontawesome_position = $settings[$key]['fontawesome-position'];
 
 					$activity_id = bp_get_activity_id();
 
 					if ( ! in_array( $activity_id, $processed_activities ) && ! isset( $done ) ) {
 
 						// Get image HTML
-						if ( isset( $settings[3]['show_image'] ) && 1 == $settings[3]['show_image'] ) {
-							$size = $settings[3]['image_size'];
+						if ( isset( $settings[$key]['show_image'] ) && 1 == $settings[$key]['show_image'] ) {
+							$size = $settings[$key]['image_size'];
 							$image_html = bp_get_activity_avatar( 'type=' . $size );
 
 							// Add image link to image HTML
-							if ( isset( $settings[3]['link_image'] ) && 1 == $settings[3]['link_image'] ) {
+							if ( isset( $settings[$key]['link_image'] ) && 1 == $settings[$key]['link_image'] ) {
 								$image_html = '<a href="' . esc_attr( bp_get_activity_user_link() ) . '">' . $image_html . '</a>';
 							}
 
@@ -486,36 +491,36 @@ class GS_Featured_Content extends WP_Widget {
 						echo '
 						<article itemscope="itemscope" itemtype="http://schema.org/Event">';
 
-						if ( isset( $settings[3]['image_position'] ) && 'before-title' == $settings[3]['image_position'] ) {
+						if ( isset( $settings[$key]['image_position'] ) && 'before-title' == $settings[$key]['image_position'] ) {
 							echo $image_html;
 						}
 
 						if ( 'before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							<h2 class="entry-title">';
 
 						if ( 'inline_before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 								<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
 
 						if ( 'inline_after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							</h2>';
 
 						if ( 'after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
-						if ( isset( $settings[3]['image_position'] ) && 'after-title' == $settings[3]['image_position'] ) {
+						if ( isset( $settings[$key]['image_position'] ) && 'after-title' == $settings[$key]['image_position'] ) {
 							echo $image_html;
 						}
 
@@ -523,7 +528,7 @@ class GS_Featured_Content extends WP_Widget {
 							bp_activity_content_body();
 						}
 
-						if ( isset( $settings[3]['image_position'] ) && 'after-content' == $settings[3]['image_position'] ) {
+						if ( isset( $settings[$key]['image_position'] ) && 'after-content' == $settings[$key]['image_position'] ) {
 							echo $image_html;
 						}
 
@@ -535,7 +540,6 @@ class GS_Featured_Content extends WP_Widget {
 					}
 				}
 			}
-
 		}
 		$gs_counter++;
 
@@ -552,10 +556,9 @@ class GS_Featured_Content extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public static function do_post_title( $instance ) {
+
 		//* Bail if empty show param
 		if ( empty( $instance['show_title'] ) ) return;
-
-//echo $gs_counter . ':';the_title();echo ':';echo get_permalink();echo $link;echo "\n\n\n\n";print_r( $instance );die;
 
 		//* Custom Link or Permalink
 		$link = $instance['link_title'] && $instance['link_title_field'] && genesis_get_custom_field( 'link_title_field' ) ? genesis_get_custom_field( 'link_title_field' ) : get_permalink();
@@ -1711,7 +1714,7 @@ function thememixfcSave(t) {
 			else
 				$col_class = 'thememixfc-wide-box';
 			printf( '<div class="%s">', $col_class );
-			
+
 			foreach( $boxes as $box ) {
 				$box_style = isset( $box['box_requires'] ) ? ' style="'. GS_Featured_Content::get_display_option( $instance, $box['box_requires'] ) .'"' : '';
 				// $box_style = isset( $box['box_requires'] ) ? ' style="'. GS_Featured_Content::get_display_option( $instance, $box['box_requires'][0], $box['box_requires'][1], $box['box_requires'][2] ) .'"' : '';
@@ -1900,7 +1903,7 @@ function thememixfcSave(t) {
 								$instance[$field_id]
 								// $class
 							);
-							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="#widget-featured-content-3-fontawesome-icon" />';
+							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="' . esc_attr( '#' . $obj->get_field_id( $field_id ) ) . '" />';
 							break;
 						case 'p' :
 						case 'description' :
@@ -2195,11 +2198,22 @@ function thememixfcSave(t) {
 		$instance['q_args'] = $q_args;
 		GS_Featured_Content::$widget_instance = $instance;
 		$pt = 'any' == $instance['post_type'] ? GS_Featured_Content::get_post_types() : $instance['post_type'];
+
+
+		// Get number of items to display
+		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
+		$settings = get_option( 'widget_featured-content' );
+		if ( isset( $settings[$key]['buddypress-group'] ) && 1 == $settings[$key]['buddypress-group'] ) {
+			$number_of_items = $settings[$key]['buddypress-group-count'];
+		} else {
+			$number_of_items = $instance['posts_num'];
+		}
+
 		$query_args = array_merge(
 			$q_args,
 			array(
 				'post_type'      => $pt, 
-				'posts_per_page' => $instance['posts_num'], 
+				'posts_per_page' => $number_of_items,
 				'orderby'        => $instance['orderby'], 
 				'order'          => $instance['order'], 
 				'meta_key'       => $instance['meta_key'], 

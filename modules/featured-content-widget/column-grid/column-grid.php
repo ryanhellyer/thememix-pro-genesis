@@ -1,10 +1,18 @@
 <?php
 
-$thememixfc_grid_counter = 0;
+$settings = get_option( 'widget_featured-content' );
+foreach ( $settings as $key => $setting ) {
+	$thememixfc_grid_counter[$key] = 0;
+}
 
 function themefixfc_grid_after() {
 	global $thememixfc_grid_counter;
-	$thememixfc_grid_counter++;
+
+	$settings = get_option( 'widget_featured-content' );
+	foreach ( $settings as $key => $setting ) {
+		$thememixfc_grid_counter[$key]++;
+	}
+
 }
 add_action( 'thememixfc_after_post_content', 'themefixfc_grid_after' );
 
@@ -14,33 +22,37 @@ function themefixfc_grid_styling() {
 
 	// Find chosen number of columns
 	$settings = get_option( 'widget_featured-content' );
-	if ( isset( $settings[3]['column-grid'] ) ) {
-		$chosen_number_of_columns = $settings[3]['column-grid'];
-	} else {
-		$chosen_number_of_columns = 1;
-	}
+	foreach ( $settings as $key => $setting ) {
 
-	// Set actual number of columns based on how many posts are being loaded (no point in doing 25% width for a single post)
-	if  ( isset( $settings[3]['buddypress-group'] ) || 1 == $settings[3]['buddypress-group'] ) {
-		$actual_number_of_columns = $chosen_number_of_columns;
-	} elseif ( $thememixfc_grid_counter < $chosen_number_of_columns ) {
-		$actual_number_of_columns = $thememixfc_grid_counter;
-	} else {
-		$actual_number_of_columns = $chosen_number_of_columns;
-	}
-
-	if ( $actual_number_of_columns > 1 ) {
-		echo '<style>.featured-content article, .featured-content li {float:left;width:';
-
-		if ( 2 == $actual_number_of_columns ) {
-			echo '50';
-		} elseif ( 3 == $actual_number_of_columns ) {
-			echo '33.3';
-		} elseif ( 4 == $actual_number_of_columns ) {
-			echo '25';
+		if ( isset( $settings[$key]['column-grid'] ) ) {
+			$chosen_number_of_columns = $settings[$key]['column-grid'];
+		} else {
+			$chosen_number_of_columns = 1;
 		}
 
-		echo '%}</style>';
+		// Set actual number of columns based on how many posts are being loaded (no point in doing 25% width for a single post)
+		if  ( isset( $settings[$key]['buddypress-group'] ) || 1 == $settings[$key]['buddypress-group'] ) {
+			$actual_number_of_columns = $chosen_number_of_columns;
+		} elseif ( $thememixfc_grid_counter[$key] < $chosen_number_of_columns ) {
+			$actual_number_of_columns = $thememixfc_grid_counter[$key];
+		} else {
+			$actual_number_of_columns = $chosen_number_of_columns;
+		}
+
+		if ( $actual_number_of_columns > 1 ) {
+			echo '<style>.featured-content article.post, .featured-content li {float:left;word-wrap:break-word;width:';
+
+			if ( 2 == $actual_number_of_columns ) {
+				echo '50';
+			} elseif ( 3 == $actual_number_of_columns ) {
+				echo '33.3';
+			} elseif ( 4 == $actual_number_of_columns ) {
+				echo '25';
+			}
+
+			echo '%}</style>';
+		}
+
 	}
 
 }

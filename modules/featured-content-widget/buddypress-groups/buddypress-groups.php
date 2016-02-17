@@ -3,6 +3,10 @@
 add_filter( 'thememixfc_form_fields', 'themefix_buddypress_groups_settings_extension' );
 function themefix_buddypress_groups_settings_extension( $args ) {
 
+	if ( ! class_exists( 'BP_Groups_Group' ) ) {
+		return $args;
+	}
+
 	$groups = BP_Groups_Group::get(array(
 		'type'     => 'alphabetical',
 		'per_page' => 100
@@ -29,6 +33,17 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 				true
 			),
 		),
+		'buddypress-group-count' => array(
+			'label'       => __( 'Number of activities to show', 'thememixfc' ),
+			'description' => '',
+			'type'        => 'select',
+			'options'     => array( 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 9 ),
+			'requires'    => array(
+				'buddypress-group',
+				'',
+				true
+			),
+		),
 	);
 
 	$args['col1'][0] = array_slice( $args['col1'][0], 0, 1, true ) +
@@ -36,27 +51,4 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 		array_slice( $args['col1'][0], 1, count( $args['col1'][0] ) - 1, true) ;
 
 	return $args;
-}
-
-
-
-
-//add_filter( 'thememixfc_query_results', 'thememixfc_buddypress_query' );
-function thememixfc_buddypress_query( $query_args ) {
-
-//$query_args = new WP_Query( $query_args ) 
-
-
-//	print_r( $query_args );die;
-	echo "\n\n\n\n\n\________________n\n\n\n\n";
-
-	$settings = get_option( 'widget_featured-content' );
-
-	if ( 1 == $settings[3]['buddypress-group'] ) {
-		print_r( $query_args );
-		die;
-	}
-
-	echo 'END';
-	die;
 }

@@ -87,74 +87,39 @@ function themefix_font_awesome_settings_extension( $args ) {
 
 	);
 
-
 	return $args;
 }
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 
+function thememixfc_span_fontawesome( $key ) {
 
-
-function thememixfc_top_fontawesome() {
 	$settings = get_option( 'widget_featured-content' );
-	if ( isset( $settings[3]['font-awesome'] ) && isset( $settings[3]['fontawesome-icon'] ) ) {
-		if ( 1 == $settings[3]['font-awesome'] ) {
-			$icon     = $settings[3]['fontawesome-icon'];
-			$position = $settings[3]['fontawesome-position'];
-		}
-	}
-}
-add_action( 'thememixfc_before_post_content', 'thememixfc_top_fontawesome' );
-
-function themefix_fontawesome_init() {
-	$settings = get_option( 'widget_featured-content' );
-	if ( isset( $settings[3]['font-awesome'] ) && 1 == $settings[3]['font-awesome'] && isset( $settings[3]['fontawesome-position'] ) ) {
-		$position = $settings[3]['fontawesome-position'];
-
-		$positions = array(
-			'inline_before_title',
-			'inline_after_title',
-		);
-		if ( in_array( $position, $positions ) ) {
-			add_filter( 'thememixfc_post_title_pattern', 'thememixfc_span_fontawesome' );
-		}
-
-		if ( 'before_title' == $position ) {
-			add_action( 'thememixfc_before_post_content', 'thememixfc_span_fontawesome', 1 );
-		}
-
-		if ( 'after_title' == $position ) {
-			add_action( 'thememixfc_after_post_content', 'thememixfc_span_fontawesome' );
-		}
-
+	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
+		return;
 	}
 
-}
-add_action( 'init', 'themefix_fontawesome_init' );
+	if ( isset( $settings[$key]['fontawesome-icon'] ) ) {
+		$icon = $settings[$key]['fontawesome-icon'];
+	} else {
+		$icon = 'fa-camera-retro';
+	}
 
-function thememixfc_span_fontawesome() {
-	echo '<div style="width:100%;text-align:center;"><span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span></div>';
+	$icon = str_replace( 'dashicons-', '', $icon );
+//	echo $icon;die;
+
+	echo '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
 }
 
-function thememixfc_get_size_fontawesome() {
+function thememixfc_get_size_fontawesome( $key ) {
 
 	$settings = get_option( 'widget_featured-content' );
-	if ( isset( $settings[3]['fontawesome-size'] ) ) {
-		$size = $settings[3]['fontawesome-size'];
+	if ( isset( $settings[$key]['fontawesome-size'] ) ) {
+		$size = $settings[$key]['fontawesome-size'];
 	} else {
 		$size = 'lg';
 	}
 
 	return $size;
-}
-
-function thememixfc_inline_before_title_fontawesome( $content ) {
-	$content = str_replace( '%s%s%s', '%s<span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span>%s%s', $content );
-	return $content;
-}
-
-function thememixfc_inline_after_title_fontawesome( $content ) {
-	$content = str_replace( '%s%s%s', '%s%s<span class="fa fa-camera-retro fa-' . thememixfc_get_size_fontawesome() . '"></span>%s', $content );
-	return $content;
 }
 
 /**
