@@ -453,6 +453,8 @@ class GS_Featured_Content extends WP_Widget {
 
 		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
+$instance['posts_num'] = 3;
+$instance['buddypress_group_posts'] = 9;
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
@@ -557,8 +559,6 @@ class GS_Featured_Content extends WP_Widget {
 
 		//* Bail if empty show param
 		if ( empty( $instance['show_title'] ) ) return;
-
-//echo $gs_counter . ':';the_title();echo ':';echo get_permalink();echo $link;echo "\n\n\n\n";print_r( $instance );die;
 
 		//* Custom Link or Permalink
 		$link = $instance['link_title'] && $instance['link_title_field'] && genesis_get_custom_field( 'link_title_field' ) ? genesis_get_custom_field( 'link_title_field' ) : get_permalink();
@@ -2198,11 +2198,22 @@ function thememixfcSave(t) {
 		$instance['q_args'] = $q_args;
 		GS_Featured_Content::$widget_instance = $instance;
 		$pt = 'any' == $instance['post_type'] ? GS_Featured_Content::get_post_types() : $instance['post_type'];
+
+
+		// Get number of items to display
+		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
+		$settings = get_option( 'widget_featured-content' );
+		if ( isset( $settings[$key]['buddypress-group'] ) && 1 == $settings[$key]['buddypress-group'] ) {
+			$number_of_items = $settings[$key]['buddypress-group-count'];
+		} else {
+			$number_of_items = $instance['posts_num'];
+		}
+
 		$query_args = array_merge(
 			$q_args,
 			array(
 				'post_type'      => $pt, 
-				'posts_per_page' => $instance['posts_num'], 
+				'posts_per_page' => $number_of_items,
 				'orderby'        => $instance['orderby'], 
 				'order'          => $instance['order'], 
 				'meta_key'       => $instance['meta_key'], 

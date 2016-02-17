@@ -37,7 +37,7 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 			'label'       => __( 'Number of activities to show', 'thememixfc' ),
 			'description' => '',
 			'type'        => 'select',
-			'options'     => array( 1, 2, 3, 4, 5, 6, 7, 8 ),
+			'options'     => array( 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 9 ),
 			'requires'    => array(
 				'buddypress-group',
 				'',
