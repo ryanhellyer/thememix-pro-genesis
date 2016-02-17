@@ -101,13 +101,10 @@ function thememixfc_span_fontawesome( $key ) {
 	if ( isset( $settings[$key]['fontawesome-icon'] ) ) {
 		$icon = $settings[$key]['fontawesome-icon'];
 	} else {
-		$icon = 'fa-camera-retro';
+		$icon = 'dashicons-admin-site';
 	}
 
-	$icon = str_replace( 'dashicons-', '', $icon );
-//	echo $icon;die;
-
-	echo '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+	echo '<div style="width:100%;text-align:center;"><span class="' . esc_attr( 'dashicons ' . $icon . ' icon-size-' . thememixfc_get_size_fontawesome( $key ) ) . '"></span></div>';
 }
 
 function thememixfc_get_size_fontawesome( $key ) {
@@ -126,7 +123,8 @@ function thememixfc_get_size_fontawesome( $key ) {
  * Add Font Awesome stylesheet.
  */
 function thememixfc_fontawesome_styles() {
-	wp_enqueue_style( 'dashicons' );
+	$plugin_url = plugin_dir_url( __FILE__ );
+	wp_enqueue_style( 'dashicon-sizes',  $plugin_url . 'css/dashicons.css', array( 'dashicons' ), '1.0', false );
 }
 add_action( 'wp_enqueue_scripts', 'thememixfc_fontawesome_styles' );
 
