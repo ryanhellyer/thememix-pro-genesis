@@ -554,6 +554,7 @@ class GS_Featured_Content extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public static function do_post_title( $instance ) {
+
 		//* Bail if empty show param
 		if ( empty( $instance['show_title'] ) ) return;
 
