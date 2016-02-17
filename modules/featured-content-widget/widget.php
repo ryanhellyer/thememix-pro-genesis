@@ -494,28 +494,28 @@ class GS_Featured_Content extends WP_Widget {
 						}
 
 						if ( 'before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							<h2 class="entry-title">';
 
 						if ( 'inline_before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 								<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
 
 						if ( 'inline_after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							</h2>';
 
 						if ( 'after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome();
+							echo thememixfc_span_fontawesome( $key );
 						}
 
 						if ( isset( $settings[$key]['image_position'] ) && 'after-title' == $settings[$key]['image_position'] ) {
