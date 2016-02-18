@@ -104,7 +104,7 @@ function thememixfc_span_fontawesome( $key ) {
 		$icon = 'fa-camera-retro';
 	}
 
-	$icon = str_replace( 'dashicons-', '', $icon );
+//	$icon = str_replace( 'dashicons-', '', $icon );
 //	echo $icon;die;
 
 	echo '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
@@ -158,3 +158,7 @@ function sample_load_color_picker_style() {
 }
 add_action('admin_print_scripts-widgets.php', 'sample_load_color_picker_script');
 add_action('admin_print_styles-widgets.php', 'sample_load_color_picker_style');
+
+if ( isset( $_GET['test'] ) ) {
+	require('get-font-awesome.php');
+}
