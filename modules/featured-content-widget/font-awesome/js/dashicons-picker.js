@@ -890,7 +890,7 @@
 					list = popup.find( '.dashicon-picker-list' );
 
 				for ( var i in icons ) {
-					list.append( '<li data-icon="' + icons[i] + '"><a href="#" title="' + icons[i] + '"><span class="dashicons dashicons-' + icons[i] + '"></span></a></li>' );
+					list.append( '<li data-icon="' + icons[i] + '"><a href="#" title="' + icons[i] + '"><span class="icon fa-' + icons[i] + '"></span></a></li>' );
 				};
 
 				$( 'a', list ).click( function ( e ) {

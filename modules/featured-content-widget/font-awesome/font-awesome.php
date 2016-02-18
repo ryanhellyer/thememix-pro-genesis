@@ -128,7 +128,6 @@ function thememixfc_get_size_fontawesome( $key ) {
 function thememixfc_fontawesome_styles() {
 	$plugin_url = plugin_dir_url( __FILE__ );
 	wp_enqueue_style( 'font-awesome',  $plugin_url . 'css/font-awesome.min.css', array(), '1.0', false );
-	wp_enqueue_style('farbtastic');	
 }
 add_action( 'wp_enqueue_scripts', 'thememixfc_fontawesome_styles' );
 
@@ -136,6 +135,8 @@ add_action( 'wp_enqueue_scripts', 'thememixfc_fontawesome_styles' );
  * Add Font Awesome related stylesheets.
  */
 function thememixfc_fontawesome_color_picker_style() {
+	$plugin_url = plugin_dir_url( __FILE__ );
+	wp_enqueue_style( 'font-awesome',  $plugin_url . 'css/font-awesome.min.css', array(), '1.0', false );
 	wp_enqueue_style('farbtastic');	
 }
 add_action( 'admin_print_scripts-widgets.php', 'thememixfc_fontawesome_color_picker_style' );

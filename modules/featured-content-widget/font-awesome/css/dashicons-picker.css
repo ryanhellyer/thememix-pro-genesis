@@ -1,3 +1,7 @@
+.icon {
+	font-family: FontAwesome;
+}
+
 .dashicon-picker-container {
 	z-index: 9999;
 	position: absolute;
