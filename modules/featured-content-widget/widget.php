@@ -453,6 +453,11 @@ class GS_Featured_Content extends WP_Widget {
 
 		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
+
+add_filter( 'thememixfc_post_title_pattern', 'thememixfc_get_span_fontawesome' );
+
+
+
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
@@ -494,28 +499,28 @@ class GS_Featured_Content extends WP_Widget {
 						}
 
 						if ( 'before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							<h2 class="entry-title">';
 
 						if ( 'inline_before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 								<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
 
 						if ( 'inline_after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							</h2>';
 
 						if ( 'after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						if ( isset( $settings[$key]['image_position'] ) && 'after-title' == $settings[$key]['image_position'] ) {
@@ -576,6 +581,9 @@ class GS_Featured_Content extends WP_Widget {
 			$hclass = '';
 		}
 
+		global $thememixfc_title_type;
+echo "\n\n\n\n\n";print_r( $instance );die;
+		$thememixfc_title_type = 'before-title';
 		$pattern = apply_filters( 'thememixfc_post_title_pattern', '<h2%s>%s%s%s</h2>' );
 		printf( $pattern, $hclass, $wrap_open, $title, $wrap_close );
 	}

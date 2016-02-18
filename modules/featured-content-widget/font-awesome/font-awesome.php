@@ -96,8 +96,28 @@ function themefix_font_awesome_settings_extension( $args ) {
 }
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 
+function thememixfc_get_span_fontawesome( $key ) {
+	global $thememixfc_title_type;
+
+	return $key . 'x'.$thememixfc_title_type;
+
+echo "\n\n\n\n\n".$key;die;
+	$settings = get_option( 'widget_featured-content' );
+	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
+		return;
+	}
+
+	if ( isset( $settings[$key]['fontawesome-icon'] ) ) {
+		$icon = $settings[$key]['fontawesome-icon'];
+	} else {
+		$icon = 'fa-camera-retro';
+	}
+
+	return '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+}
+
 function thememixfc_span_fontawesome( $key ) {
-echo 'XXXXXXXXXXXXXXXXXXXXXXX';die;
+
 	$settings = get_option( 'widget_featured-content' );
 	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
 		return;
