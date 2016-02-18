@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * Script for regeneration of the Font Awesome JS icons.
+ * require('generate-font-awesome.php');}
+ */
+
+/**
  * Enqueue dashicons picker scripts.
  */
 function dashicons_picker_scripts() {
@@ -149,7 +154,3 @@ function thememixfc_fontawesome_color_picker_script() {
 	wp_enqueue_script( 'farbtastic' );
 }
 add_action('admin_print_scripts-widgets.php', 'thememixfc_fontawesome_color_picker_script');
-
-
-
-if ( isset( $_GET['test'] ) ) {require('generate-font-awesome.php');}
