@@ -582,7 +582,7 @@ add_filter( 'thememixfc_post_title_pattern', 'thememixfc_get_span_fontawesome' )
 		}
 
 		global $thememixfc_title_type;
-echo "\n\n\n\n\n";print_r( $instance );die;
+//echo "\n\n\n\n\n";print_r( $instance );die;
 		$thememixfc_title_type = 'before-title';
 		$pattern = apply_filters( 'thememixfc_post_title_pattern', '<h2%s>%s%s%s</h2>' );
 		printf( $pattern, $hclass, $wrap_open, $title, $wrap_close );

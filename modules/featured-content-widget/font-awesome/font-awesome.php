@@ -96,12 +96,47 @@ function themefix_font_awesome_settings_extension( $args ) {
 }
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 
-function thememixfc_get_span_fontawesome( $key ) {
+function thememixfc_get_span_fontawesome( $text ) {
 	global $thememixfc_title_type;
+//%s%s%s
+//echo $content;die;
+echo $text;die;
+	if ( 'before-title' == $thememixfc_title_type ) {
+		$text = 'xxx' . $text;
+	} elseif ( 'inline-before_title' == $thememixfc_title_type ) {
+	} elseif ( 'inline-after-title' == $thememixfc_title_type ) {
+		$text = 'xxx' . $text;
+	} elseif ( 'after-title' == $thememixfc_title_type ) {
+		$text = 'xxx' . $text;
+	} else {
+		$text = $content;
+	}
 
-	return $key . 'x'.$thememixfc_title_type;
+	return $text;
+//return $content.'x';
 
-echo "\n\n\n\n\n".$key;die;
+echo gettype( $content );
+echo '<BR><BR><BR>';
+echo gettype( $string );
+echo '<BR><BR><BR>';
+
+var_dump( $content );
+echo '<BR><BR><BR>';
+var_dump( $string );
+echo '<BR><BR><BR>';
+$string = '%s%s%s';
+echo $string . '<br>'.$content;
+//return $string;
+	if ( $content == '%s%s%s' ) {
+		return $content;
+	}
+
+die('pooper');
+	$string = '%s%s%s';
+	$string = $content;
+
+	return $string;
+
 	$settings = get_option( 'widget_featured-content' );
 	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
 		return;
