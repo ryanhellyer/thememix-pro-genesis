@@ -13,6 +13,7 @@ function dashicons_picker_scripts() {
 	$plugin_url = plugin_dir_url( __FILE__ );
 
 	wp_enqueue_style( 'dashicons-picker',  $plugin_url . 'css/font-awesome-picker.css', array( 'dashicons' ), '1.0', false );
+	wp_enqueue_script( 'fontawesome-icons', $plugin_url . 'js/font-awesome-icons.js',   array(), '1.0', true  );
 	wp_enqueue_script( 'dashicons-picker', $plugin_url . 'js/font-awesome-picker.js',   array( 'jquery'    ), '1.1', true  );
 }
 add_action( 'admin_enqueue_scripts', 'dashicons_picker_scripts' );
@@ -151,4 +152,4 @@ add_action('admin_print_scripts-widgets.php', 'thememixfc_fontawesome_color_pick
 
 
 
-//if ( isset( $_GET['test'] ) ) {require('get-font-awesome.php');}
+if ( isset( $_GET['test'] ) ) {require('generate-font-awesome.php');}
