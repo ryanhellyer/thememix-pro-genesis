@@ -453,8 +453,6 @@ class GS_Featured_Content extends WP_Widget {
 
 		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
-$instance['posts_num'] = 3;
-$instance['buddypress_group_posts'] = 9;
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
