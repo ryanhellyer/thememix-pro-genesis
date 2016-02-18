@@ -1,5 +1,5 @@
 /**
- * Dashicons Picker
+ * Font Awesome Picker
  *
  * Based on: https://github.com/bradvin/dashicons-picker/
  */
@@ -13,7 +13,7 @@
 	$.fn.fontawesomePicker = function () {
 
 		/**
-		 * Dashicons, in CSS order
+		 * Font Awesome, in CSS order
 		 *
 		 * @type Array
 		 */
@@ -655,7 +655,7 @@
 					var title = $( this ).attr( 'title' );
 					target.val( title );
 
-					var thefields = document.getElementsByClassName('dashicons-picker');
+					var thefields = document.getElementsByClassName('font-awesome-picker');
 					Object.keys(thefields).forEach(function(key) {
 						var thefield = thefields[key];
 						thefield.value = title;
@@ -667,9 +667,9 @@
 				var control = popup.find( '.fontawesome-picker-control' );
 
 				control.html( '<a data-direction="back" href="#"> \
-					<span class="dashicons dashicons-arrow-left-alt2"></span></a> \
+					<span class="fontawesome-icons fontawesome-arrow-left-alt2"></span></a> \
 					<input type="text" class="" placeholder="Search" /> \
-					<a data-direction="forward" href="#"><span class="dashicons dashicons-arrow-right-alt2"></span></a>'
+					<a data-direction="forward" href="#"><span class="fontawesome-icons fontawesome-arrow-right-alt2"></span></a>'
 				);
 
 				$( 'a', control ).click( function ( e ) {
@@ -698,7 +698,7 @@
 					}
 				} );
 
-				$( document ).bind( 'mouseup.dashicons-picker', function ( e ) {
+				$( document ).bind( 'mouseup.fontawesome-picker', function ( e ) {
 					if ( ! popup.is( e.target ) && popup.has( e.target ).length === 0 ) {
 						removePopup();
 					}
@@ -707,13 +707,13 @@
 
 			function removePopup() {
 				$( '.fontawesome-picker-container' ).remove();
-				$( document ).unbind( '.dashicons-picker' );
+				$( document ).unbind( '.fontawesome-picker' );
 			}
 		} );
 	};
 
 	$( function () {
-		$( '.dashicons-picker' ).fontawesomePicker();
+		$( '.fontawesome-picker' ).fontawesomePicker();
 	} );
 
 }( jQuery ) );

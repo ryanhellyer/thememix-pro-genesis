@@ -6,9 +6,9 @@
  */
 
 /**
- * Enqueue dashicons picker scripts.
+ * Enqueue font awesome picker scripts.
  */
-function dashicons_picker_scripts() {
+function font_awesome_picker_scripts() {
 
 	// Only load when on the widgets admin page
 	if ( 'widgets.php' != basename( $_SERVER['REQUEST_URI'] ) ) {
@@ -17,11 +17,11 @@ function dashicons_picker_scripts() {
 
 	$plugin_url = plugin_dir_url( __FILE__ );
 
-	wp_enqueue_style( 'dashicons-picker',  $plugin_url . 'css/font-awesome-picker.css', array( 'dashicons' ), '1.0', false );
+	wp_enqueue_style( 'font-awesome-picker',  $plugin_url . 'css/font-awesome-picker.css', array(), '1.0', false );
 	wp_enqueue_script( 'fontawesome-icons', $plugin_url . 'js/font-awesome-icons.js',   array(), '1.0', true  );
-	wp_enqueue_script( 'dashicons-picker', $plugin_url . 'js/font-awesome-picker.js',   array( 'jquery'    ), '1.1', true  );
+	wp_enqueue_script( 'font-awesome-picker', $plugin_url . 'js/font-awesome-picker.js',   array( 'jquery'    ), '1.1', true  );
 }
-add_action( 'admin_enqueue_scripts', 'dashicons_picker_scripts' );
+add_action( 'admin_enqueue_scripts', 'font_awesome_picker_scripts' );
 
 function themefix_font_awesome_settings_extension( $args ) {
 
@@ -73,7 +73,6 @@ function themefix_font_awesome_settings_extension( $args ) {
 			),
 		),
 
-
 		'fontawesome-position' => array(
 			'label'       => __( 'Position', 'thememixfc' ),
 			'description' => '',
@@ -109,9 +108,6 @@ function thememixfc_span_fontawesome( $key ) {
 	} else {
 		$icon = 'fa-camera-retro';
 	}
-
-//	$icon = str_replace( 'dashicons-', '', $icon );
-//	echo $icon;die;
 
 	echo '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
 }

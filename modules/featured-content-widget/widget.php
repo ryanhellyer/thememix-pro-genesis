@@ -1897,13 +1897,12 @@ function thememixfcSave(t) {
 							break;
 						case 'fontawesome' :
 
-							printf( '<input type="textbox" id="%1$s" name="%2$s" class="dashicons-picker" widget-control-save" value="%3$s" />',
+							printf( '<input type="textbox" id="%1$s" name="%2$s" class="fontawesome-picker" widget-control-save" value="%3$s" />',
 								$obj->get_field_id( $field_id ),
 								$obj->get_field_name( $field_id ),
 								$instance[$field_id]
-								// $class
 							);
-							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="' . esc_attr( '#' . $obj->get_field_id( $field_id ) ) . '" />';
+							echo '<input class="button fontawesome-picker" type="button" value="Choose Icon" data-target="' . esc_attr( '#' . $obj->get_field_id( $field_id ) ) . '" />';
 							break;
 						case 'p' :
 						case 'description' :
