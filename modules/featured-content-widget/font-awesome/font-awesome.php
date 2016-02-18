@@ -12,8 +12,8 @@ function dashicons_picker_scripts() {
 
 	$plugin_url = plugin_dir_url( __FILE__ );
 
-	wp_enqueue_style( 'dashicons-picker',  $plugin_url . 'css/dashicons-picker.css', array( 'dashicons' ), '1.0', false );
-	wp_enqueue_script( 'dashicons-picker', $plugin_url . 'js/dashicons-picker.js',   array( 'jquery'    ), '1.1', true  );
+	wp_enqueue_style( 'dashicons-picker',  $plugin_url . 'css/font-awesome-picker.css', array( 'dashicons' ), '1.0', false );
+	wp_enqueue_script( 'dashicons-picker', $plugin_url . 'js/font-awesome-picker.js',   array( 'jquery'    ), '1.1', true  );
 }
 add_action( 'admin_enqueue_scripts', 'dashicons_picker_scripts' );
 
@@ -145,21 +145,10 @@ add_action( 'admin_print_scripts-widgets.php', 'thememixfc_fontawesome_color_pic
  * Add Farbtastic colour picker script.
  */
 function thememixfc_fontawesome_color_picker_script() {
-	wp_enqueue_script('farbtastic');
+	wp_enqueue_script( 'farbtastic' );
 }
 add_action('admin_print_scripts-widgets.php', 'thememixfc_fontawesome_color_picker_script');
 
 
 
-function sample_load_color_picker_script() {
-	wp_enqueue_script('farbtastic');
-}
-function sample_load_color_picker_style() {
-	wp_enqueue_style('farbtastic');	
-}
-add_action('admin_print_scripts-widgets.php', 'sample_load_color_picker_script');
-add_action('admin_print_styles-widgets.php', 'sample_load_color_picker_style');
-
-if ( isset( $_GET['test'] ) ) {
-	require('get-font-awesome.php');
-}
+//if ( isset( $_GET['test'] ) ) {require('get-font-awesome.php');}
