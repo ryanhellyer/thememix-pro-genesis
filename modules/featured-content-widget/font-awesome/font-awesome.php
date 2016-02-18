@@ -97,7 +97,7 @@ function themefix_font_awesome_settings_extension( $args ) {
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 
 function thememixfc_span_fontawesome( $key ) {
-
+echo 'XXXXXXXXXXXXXXXXXXXXXXX';die;
 	$settings = get_option( 'widget_featured-content' );
 	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
 		return;
