@@ -454,9 +454,7 @@ class GS_Featured_Content extends WP_Widget {
 		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
 
-add_filter( 'thememixfc_post_title_pattern', 'thememixfc_get_span_fontawesome' );
-
-
+			add_filter( 'thememixfc_post_title_pattern', 'thememixfc_get_span_fontawesome' );
 
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
@@ -581,9 +579,8 @@ add_filter( 'thememixfc_post_title_pattern', 'thememixfc_get_span_fontawesome' )
 			$hclass = '';
 		}
 
-		global $thememixfc_title_type;
-//echo "\n\n\n\n\n";print_r( $instance );die;
-		$thememixfc_title_type = 'before-title';
+		global $thememixfc_key;
+		$thememixfc_key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		$pattern = apply_filters( 'thememixfc_post_title_pattern', '<h2%s>%s%s%s</h2>' );
 		printf( $pattern, $hclass, $wrap_open, $title, $wrap_close );
 	}

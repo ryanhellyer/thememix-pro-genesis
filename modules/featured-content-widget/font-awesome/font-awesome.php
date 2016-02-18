@@ -97,49 +97,14 @@ function themefix_font_awesome_settings_extension( $args ) {
 add_filter( 'thememixfc_form_fields', 'themefix_font_awesome_settings_extension' );
 
 function thememixfc_get_span_fontawesome( $text ) {
-	global $thememixfc_title_type;
-//%s%s%s
-//echo $content;die;
-echo $text;die;
-	if ( 'before-title' == $thememixfc_title_type ) {
-		$text = 'xxx' . $text;
-	} elseif ( 'inline-before_title' == $thememixfc_title_type ) {
-	} elseif ( 'inline-after-title' == $thememixfc_title_type ) {
-		$text = 'xxx' . $text;
-	} elseif ( 'after-title' == $thememixfc_title_type ) {
-		$text = 'xxx' . $text;
-	} else {
-		$text = $content;
-	}
-
-	return $text;
-//return $content.'x';
-
-echo gettype( $content );
-echo '<BR><BR><BR>';
-echo gettype( $string );
-echo '<BR><BR><BR>';
-
-var_dump( $content );
-echo '<BR><BR><BR>';
-var_dump( $string );
-echo '<BR><BR><BR>';
-$string = '%s%s%s';
-echo $string . '<br>'.$content;
-//return $string;
-	if ( $content == '%s%s%s' ) {
-		return $content;
-	}
-
-die('pooper');
-	$string = '%s%s%s';
-	$string = $content;
-
-	return $string;
+	global $thememixfc_key;
 
 	$settings = get_option( 'widget_featured-content' );
-	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
-		return;
+	$key = $thememixfc_key;
+	if ( isset( $settings[$key]['fontawesome-position'] ) ) {
+		$position = $settings[$key]['fontawesome-position'];
+	} else {
+		$position = 'after_title';
 	}
 
 	if ( isset( $settings[$key]['fontawesome-icon'] ) ) {
@@ -148,7 +113,21 @@ die('pooper');
 		$icon = 'fa-camera-retro';
 	}
 
-	return '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+	$icon_html = '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+
+	if ( 'before_title' == $position ) {
+		$text = $icon_html . '<h2%s>%s%s</h2>';
+	} elseif ( 'inline_before_title' == $position ) {
+		$text = '<h2%s>' . $icon_html . '%s%s</h2>';
+	} elseif ( 'inline_after_title' == $position ) {
+		$text = '<h2%s>%s' . $icon_html . '%s</h2>';
+	} elseif ( 'after_title' == $position ) {
+		$text = '<h2%s>%s%s</h2>' . $icon_html;
+	} else {
+		$text = $content;
+	}
+
+	return $text;
 }
 
 function thememixfc_span_fontawesome( $key ) {
