@@ -582,7 +582,9 @@ class GS_Featured_Content extends WP_Widget {
 		global $thememixfc_key;
 		$thememixfc_key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		$pattern = apply_filters( 'thememixfc_post_title_pattern', '<h2%s>%s%s%s</h2>' );
-		printf( $pattern, $hclass, $wrap_open, $title, $wrap_close );
+		$title = sprintf( $pattern, $hclass, $wrap_open, $title, $wrap_close );
+		$title = apply_filters( 'thememixfc_post_title_add_extra', $title );
+		echo $title;
 	}
 	
 	/**

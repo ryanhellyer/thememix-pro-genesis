@@ -113,21 +113,31 @@ function thememixfc_get_span_fontawesome( $text ) {
 		$icon = 'fa-camera-retro';
 	}
 
-	$icon_html = '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+	$icon_code = '[thememixfc_title]' . $icon . '|||' . thememixfc_get_size_fontawesome( $key ) . '[/thememixfc_title]';
 
 	if ( 'before_title' == $position ) {
-		$text = $icon_html . '<h2%s>%s%s</h2>';
+		$text = $icon_code . '<h2%s>%s%s</h2>';
 	} elseif ( 'inline_before_title' == $position ) {
-		$text = '<h2%s>' . $icon_html . '%s%s</h2>';
+		$text = '<h2%s>' . $icon_code . '%s%s</h2>';
 	} elseif ( 'inline_after_title' == $position ) {
-		$text = '<h2%s>%s' . $icon_html . '%s</h2>';
+		$text = '<h2%s>%s' . $icon_code . '%s</h2>';
 	} elseif ( 'after_title' == $position ) {
-		$text = '<h2%s>%s%s</h2>' . $icon_html;
+		$text = '<h2%s>%s%s</h2>' . $icon_code;
 	} else {
 		$text = $content;
 	}
 
 	return $text;
+}
+
+add_filter( 'thememixfc_post_title_add_extra', 'thememixfc_modify_title' );
+function thememixfc_modify_title( $title ) {
+
+	$title = str_replace( '[thememixfc_title]', '<div style="width:100%;text-align:center;"><span class="fa fa-', $title );
+	$title = str_replace( '|||', ' fa-', $title );
+	$title = str_replace( '[/thememixfc_title]', '"></span></div>', $title );
+
+	return $title;
 }
 
 function thememixfc_span_fontawesome( $key ) {
