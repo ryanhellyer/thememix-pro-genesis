@@ -453,8 +453,9 @@ class GS_Featured_Content extends WP_Widget {
 
 		$key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		if ( ! isset( $settings[$key]['buddypress-group'] ) || 1 != $settings[$key]['buddypress-group'] ) {
-$instance['posts_num'] = 3;
-$instance['buddypress_group_posts'] = 9;
+
+			add_filter( 'thememixfc_post_title_pattern', 'thememixfc_get_span_fontawesome' );
+
 			GS_Featured_Content::action( 'thememixfc_before_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_post_content', $instance );
 			GS_Featured_Content::action( 'thememixfc_after_post_content', $instance );
@@ -496,28 +497,28 @@ $instance['buddypress_group_posts'] = 9;
 						}
 
 						if ( 'before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							<h2 class="entry-title">';
 
 						if ( 'inline_before_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 								<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
 
 						if ( 'inline_after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						echo '
 							</h2>';
 
 						if ( 'after_title' == $fontawesome_position ) {
-							echo thememixfc_span_fontawesome( $key );
+							thememixfc_span_fontawesome( $key );
 						}
 
 						if ( isset( $settings[$key]['image_position'] ) && 'after-title' == $settings[$key]['image_position'] ) {
@@ -578,8 +579,12 @@ $instance['buddypress_group_posts'] = 9;
 			$hclass = '';
 		}
 
+		global $thememixfc_key;
+		$thememixfc_key = str_replace( 'featured-content-', '', $instance['widget_args']['widget_id'] );
 		$pattern = apply_filters( 'thememixfc_post_title_pattern', '<h2%s>%s%s%s</h2>' );
-		printf( $pattern, $hclass, $wrap_open, $title, $wrap_close );
+		$title = sprintf( $pattern, $hclass, $wrap_open, $title, $wrap_close );
+		$title = apply_filters( 'thememixfc_post_title_add_extra', $title );
+		echo $title;
 	}
 	
 	/**
@@ -1705,6 +1710,7 @@ function thememixfcSave(t) {
 	 * @param object $obj Current Widget Object. 
 	 */
 	public static function do_columns( $instance, $columns, $obj ) {
+
 		echo '<div class="thememixfc-widget-body">';
 		foreach( $columns as $column => $boxes ) {
 			if( 'col1' == $column )
@@ -1865,45 +1871,44 @@ function thememixfcSave(t) {
 							echo $args['description'] ? wpautop( $args['description'] ) : '';
 							break;
 						case 'colour_picker':
-							?>
+
+						echo '
 							<script type="text/javascript">
-								//<![CDATA[
-									jQuery(document).ready(function()
-									{
-										// colorpicker field
-										jQuery('.cw-color-picker').each(function(){
-											var $this = jQuery(this),
-												id = $this.attr('rel');
+							//<![CDATA[
+								jQuery(document).ready(function()
+								{
+									// colorpicker field
+									jQuery(\'.cw-color-picker\').each(function(){
+										var $this = jQuery(this),
+											id = $this.attr(\'rel\');
 
-											$this.farbtastic('#' + id);
-										});
+										$this.farbtastic(\'#\' + id);
 									});
-								//]]>
-							</script><?php
+								});
+							//]]>   
+							</script>
 
-							echo '
-							<label for="fontawesome-colour">' . __('Background Color:') . '</label>
-							<input class="widefat" id="fontawesome-colour" name="fontawesome-colour" type="text" value="';
-
-							if ( isset( $background ) ) {
-								echo $background;
-							} else {
-								echo '#fff';
-							}
-
-							echo '" />
-							<div class="cw-color-picker" rel="fontawesome-colour"></div>';
+							<p>
+								<label for="' . GS_Featured_Content::$self->get_field_id( 'background' ) . '">' . __( 'Background Color:' ) . '</label> 
+								<input class="widefat" id="' . GS_Featured_Content::$self->get_field_id( 'background' ) . '" name="' . GS_Featured_Content::$self->get_field_name( 'background' ) . '" type="text" value="';
+						if ( $background ) {
+							echo $background;
+						} else {
+							echo '#fff';
+						} 
+						echo '" />
+								<div class="cw-color-picker" rel="' . GS_Featured_Content::$self->get_field_id( 'background' ) .'"></div>
+							</p>';
 
 							break;
 						case 'fontawesome' :
 
-							printf( '<input type="textbox" id="%1$s" name="%2$s" class="dashicons-picker" widget-control-save" value="%3$s" />',
+							printf( '<input type="textbox" id="%1$s" name="%2$s" class="fontawesome-picker" widget-control-save" value="%3$s" />',
 								$obj->get_field_id( $field_id ),
 								$obj->get_field_name( $field_id ),
 								$instance[$field_id]
-								// $class
 							);
-							echo '<input class="button dashicons-picker" type="button" value="Choose Icon" data-target="' . esc_attr( '#' . $obj->get_field_id( $field_id ) ) . '" />';
+							echo '<input class="button fontawesome-picker" type="button" value="Choose Icon" data-target="' . esc_attr( '#' . $obj->get_field_id( $field_id ) ) . '" />';
 							break;
 						case 'p' :
 						case 'description' :
