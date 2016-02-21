@@ -1710,6 +1710,7 @@ function thememixfcSave(t) {
 	 * @param object $obj Current Widget Object. 
 	 */
 	public static function do_columns( $instance, $columns, $obj ) {
+
 		echo '<div class="thememixfc-widget-body">';
 		foreach( $columns as $column => $boxes ) {
 			if( 'col1' == $column )
@@ -1870,34 +1871,34 @@ function thememixfcSave(t) {
 							echo $args['description'] ? wpautop( $args['description'] ) : '';
 							break;
 						case 'colour_picker':
-							?>
+
+						echo '
 							<script type="text/javascript">
-								//<![CDATA[
-									jQuery(document).ready(function()
-									{
-										// colorpicker field
-										jQuery('.cw-color-picker').each(function(){
-											var $this = jQuery(this),
-												id = $this.attr('rel');
+							//<![CDATA[
+								jQuery(document).ready(function()
+								{
+									// colorpicker field
+									jQuery(\'.cw-color-picker\').each(function(){
+										var $this = jQuery(this),
+											id = $this.attr(\'rel\');
 
-											$this.farbtastic('#' + id);
-										});
+										$this.farbtastic(\'#\' + id);
 									});
-								//]]>
-							</script><?php
+								});
+							//]]>   
+							</script>
 
-							echo '
-							<label for="fontawesome-colour">' . __('Background Color:') . '</label>
-							<input class="widefat" id="fontawesome-colour" name="fontawesome-colour" type="text" value="';
-
-							if ( isset( $background ) ) {
-								echo $background;
-							} else {
-								echo '#fff';
-							}
-
-							echo '" />
-							<div class="cw-color-picker" rel="fontawesome-colour"></div>';
+							<p>
+								<label for="' . GS_Featured_Content::$self->get_field_id( 'background' ) . '">' . __( 'Background Color:' ) . '</label> 
+								<input class="widefat" id="' . GS_Featured_Content::$self->get_field_id( 'background' ) . '" name="' . GS_Featured_Content::$self->get_field_name( 'background' ) . '" type="text" value="';
+						if ( $background ) {
+							echo $background;
+						} else {
+							echo '#fff';
+						} 
+						echo '" />
+								<div class="cw-color-picker" rel="' . GS_Featured_Content::$self->get_field_id( 'background' ) .'"></div>
+							</p>';
 
 							break;
 						case 'fontawesome' :
