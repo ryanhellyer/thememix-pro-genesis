@@ -61,6 +61,7 @@ function themefix_buddypress_groups_widget( $settings, $key, $group ) {
 	}
 
 	$group_id = $settings[$key]['buddypress-group-group'];
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group_id ) ) {
 		while ( bp_activities() ) {
@@ -98,16 +99,21 @@ function themefix_buddypress_groups_widget( $settings, $key, $group ) {
 				echo '
 					<h2 class="entry-title">';
 
-				if ( 'inline_before_title' == $fontawesome_position ) {
-					thememixfc_span_fontawesome( $key );
-				}
 
 				echo '
-						<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
+						<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">';
+
+				if ( 'inline_before_title' == $fontawesome_position ) {
+					thememixfc_span_fontawesome( $key, true );
+				}
+
+				echo esc_html( $group->name );
 
 				if ( 'inline_after_title' == $fontawesome_position ) {
-					thememixfc_span_fontawesome( $key );
+					thememixfc_span_fontawesome( $key, true );
 				}
+
+				echo '</a>';
 
 				echo '
 					</h2>';
