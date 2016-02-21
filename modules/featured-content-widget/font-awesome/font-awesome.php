@@ -143,7 +143,7 @@ function thememixfc_modify_title( $title ) {
 	return $title;
 }
 
-function thememixfc_span_fontawesome( $key ) {
+function thememixfc_span_fontawesome( $key, $inline = false ) {
 
 	$settings = get_option( 'widget_featured-content' );
 	if ( ! isset( $settings[$key]['font-awesome'] ) || '' == $settings[$key]['font-awesome'] ) {
@@ -156,7 +156,16 @@ function thememixfc_span_fontawesome( $key ) {
 		$icon = 'fa-camera-retro';
 	}
 
-	echo '<div style="width:100%;text-align:center;"><span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span></div>';
+	if ( false == $inline ) {
+		echo '<div style="width:100%;text-align:center;">';
+	}
+
+	echo '<span class="fa fa-' . $icon . ' fa-' . thememixfc_get_size_fontawesome( $key ) . '"></span>';
+
+	if ( false == $inline ) {
+		echo '</div>';
+	}
+
 }
 
 function thememixfc_get_size_fontawesome( $key ) {
