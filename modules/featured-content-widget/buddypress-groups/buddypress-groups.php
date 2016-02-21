@@ -52,3 +52,88 @@ function themefix_buddypress_groups_settings_extension( $args ) {
 
 	return $args;
 }
+
+function themefix_buddypress_groups_widget( $settings, $key, $group ) {
+	global $gs_counter, $processed_activities;
+
+	if ( ! isset( $processed_activities ) ) {
+		$processed_activities = array();
+	}
+
+	$group_id = $settings[$key]['buddypress-group-group'];
+
+	if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . '&primary_id=' . $group_id ) ) {
+		while ( bp_activities() ) {
+			bp_the_activity();
+			$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+			$fontawesome_position = $settings[$key]['fontawesome-position'];
+
+			$activity_id = bp_get_activity_id();
+
+			if ( ! in_array( $activity_id, $processed_activities ) && ! isset( $done ) ) {
+
+				// Get image HTML
+				if ( isset( $settings[$key]['show_image'] ) && 1 == $settings[$key]['show_image'] ) {
+					$size = $settings[$key]['image_size'];
+					$image_html = bp_get_activity_avatar( 'type=' . $size );
+
+					// Add image link to image HTML
+					if ( isset( $settings[$key]['link_image'] ) && 1 == $settings[$key]['link_image'] ) {
+						$image_html = '<a href="' . esc_attr( bp_get_activity_user_link() ) . '">' . $image_html . '</a>';
+					}
+
+				}
+
+				echo '
+				<article itemscope="itemscope" itemtype="http://schema.org/Event">';
+
+				if ( isset( $settings[$key]['image_position'] ) && 'before-title' == $settings[$key]['image_position'] ) {
+					echo $image_html;
+				}
+
+				if ( 'before_title' == $fontawesome_position ) {
+					thememixfc_span_fontawesome( $key );
+				}
+
+				echo '
+					<h2 class="entry-title">';
+
+				if ( 'inline_before_title' == $fontawesome_position ) {
+					thememixfc_span_fontawesome( $key );
+				}
+
+				echo '
+						<a href="' . esc_url( $url ) . '" title="' . esc_attr( $group->name ) . '">' . esc_html( $group->name ) . '</a>';
+
+				if ( 'inline_after_title' == $fontawesome_position ) {
+					thememixfc_span_fontawesome( $key );
+				}
+
+				echo '
+					</h2>';
+
+				if ( 'after_title' == $fontawesome_position ) {
+					thememixfc_span_fontawesome( $key );
+				}
+
+				if ( isset( $settings[$key]['image_position'] ) && 'after-title' == $settings[$key]['image_position'] ) {
+					echo $image_html;
+				}
+
+				if ( bp_activity_has_content() ) {
+					bp_activity_content_body();
+				}
+
+				if ( isset( $settings[$key]['image_position'] ) && 'after-content' == $settings[$key]['image_position'] ) {
+					echo $image_html;
+				}
+
+				echo '
+				</article>';
+
+				$processed_activities[] = $activity_id;
+				$done = true;
+			}
+		}
+	}
+}
